@@ -1,0 +1,71 @@
+all:
+  children:  
+
+    cs_dc1:
+      hosts:
+        cs_1:      
+          ansible_host: xx.xx.xx.xx
+        cs_2:      
+          ansible_host: xx.xx.xx.xx
+        cs_3:      
+          ansible_host: xx.xx.xx.xx
+
+    cs_dc2:
+      hosts:
+        cs_4:      
+          ansible_host: xx.xx.xx.xx
+        cs_5:      
+          ansible_host: xx.xx.xx.xx
+        cs_6:      
+          ansible_host: xx.xx.xx.xx
+
+    ms_dc1:
+      hosts:
+        ms_1:      
+          ansible_host: xx.xx.xx.xx    
+
+    ms_dc2:
+      hosts:
+        ms_2:      
+          ansible_host: xx.xx.xx.xx    
+
+    ps_dc1:
+      hosts:
+        ps_master:      
+          ansible_host: xx.xx.xx.xx    
+
+    ps_dc2:
+      hosts:
+        ps_standby:      
+          ansible_host: xx.xx.xx.xx    
+
+    qs_dc1:
+      hosts:
+        qs_1:      
+          ansible_host: xx.xx.xx.xx
+        qs_2:      
+          ansible_host: xx.xx.xx.xx    
+
+    qs_dc2:
+      hosts:
+        qs_3:      
+          ansible_host: xx.xx.xx.xx
+        qs_4:      
+          ansible_host: xx.xx.xx.xx    
+
+    baas:
+      hosts:
+        stack:
+          ansible_host: xx.xx.xx.xx  
+        portal:      
+          ansible_host: xx.xx.xx.xx
+        elasticsearch:      
+          ansible_host: xx.xx.xx.xx  
+        
+    drupal:
+      hosts:
+        dp:      
+          ansible_host: xx.xx.xx.xx  
+  vars:
+    ansible_user: SSH_USER
+    ansible_ssh_private_key_file: SSH_KEY

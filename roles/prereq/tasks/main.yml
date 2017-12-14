@@ -1,0 +1,83 @@
+---
+- name: Install required packages
+  become: yes
+  yum: 
+    pkg: "{{ item }}" 
+    state: installed
+  with_items:
+    - wget
+    - curl
+    - telnet
+    - nc    
+    - java-1.8.0-openjdk-devel
+
+- name: Set JAVA_HOME for the installation
+  become: yes
+  lineinfile: 
+    dest: /etc/profile 
+    regexp: "^(export JAVA_HOME=)" 
+    state: present 
+    line: "export JAVA_HOME=/usr/lib/jvm/java-openjdk"
+
+- name: Source /etc/profile  
+  shell: source /etc/profile
+
+- name: Disable SELINUX
+  become: yes
+  command: /usr/sbin/setenforce 0
+  
+- name: Create the apigee group
+  become: yes
+  group:
+    name: apigee
+    state: present
+
+- name: Create the apigee user
+  become: yes
+  user:
+    name: apigee
+    group: apigee    
+
+- name: Ensure that OPDK staging folder is in place
+  become: yes
+  file:
+    path: '/opt/apigee'
+    state: directory
+    group: 'apigee'
+    owner: 'apigee'
+    recurse: yes
+    mode: 0755
+
+- name: Create Apigee's tmp folder  
+  become: yes
+  file:
+    path: '/tmp/apigee'
+    state: directory
+    group: 'apigee'
+    owner: 'apigee'
+    recurse: yes
+    mode: 0755
+
+- name: Copy response files and license
+  become: yes
+  copy:
+    src: "{{ item }}"
+    dest: /tmp/apigee/
+    owner: apigee
+    group: apigee
+  with_items:
+    - files/response_dc1.txt
+    - files/response_dc2.txt
+
+- name: Download bootstrap
+  become: yes
+  get_url:
+    url: https://software.apigee.com/bootstrap_4.17.09.sh
+    dest: /tmp/apigee/bootstrap_4.17.09.sh
+    owner: apigee
+    group: apigee
+
+- name: Bootstrap Apigee
+  become: yes
+  command: bash /tmp/apigee/bootstrap_4.17.09.sh apigeeuser={{ apigee_user }} apigeepassword={{ apigee_pwd }}
+  

@@ -1,0 +1,1 @@
+private_address: "{{ ansible_host }}"
