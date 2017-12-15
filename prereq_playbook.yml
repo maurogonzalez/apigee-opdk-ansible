@@ -2,7 +2,7 @@
 - hosts: all
   roles:
      - prereq
-
-- hosts: cs
-  roles:
-     - cassandra_systemlimits
+  vars:
+    ssh_user: user
+    ssh_key: ~/.ssh/ssh-key
+    ssh_bastion_host: xx.xx.xx.xx

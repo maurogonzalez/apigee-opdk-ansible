@@ -1,0 +1,34 @@
+---
+# tasks file for internal-port-connectivity-validator-zookeeper
+- name: Zookeeper data port connectivity status
+  wait_for:
+    port: '{{ zk_data_port }}'    
+    host: "{{ hostvars[item].ansible_host }}"
+    exclude_hosts: '{{ private_address }}'
+    timeout: 1
+  register: zk_data_port_status
+  ignore_errors: yes
+  with_items: 
+  - "{{ groups['cs'] }}"
+
+- name: Zookeeper leader port connectivity status
+  wait_for:
+    port: '{{ zk_data_port }}'    
+    host: "{{ hostvars[item].ansible_host }}"
+    exclude_hosts: '{{ private_address }}'
+    timeout: 1
+  register: zk_leader_port_status
+  ignore_errors: yes
+  with_items: 
+  - "{{ groups['cs'] }}"
+
+- name: Zookeeper voter port connectivity status
+  wait_for:
+    port: '{{ zk_data_port }}'    
+    host: "{{ hostvars[item].ansible_host }}"
+    exclude_hosts: '{{ private_address }}'
+    timeout: 1
+  register: zk_voter_port_status
+  ignore_errors: yes
+  with_items: 
+  - "{{ groups['cs'] }}"

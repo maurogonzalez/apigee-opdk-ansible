@@ -1,38 +1,46 @@
 ---
 # tasks file for port-connectivity-validator
-- name: Cassandra thrift client port connectivity status
-  delegate_to: '{{ inventory_hostname }}'
+- name: Cassandra thrift client port connectivity status  
   wait_for:
     port: '{{ cassandra_thrift_client_port }}'
-    host: '{{ private_address }}'
+    host: "{{ hostvars[item].ansible_host }}"
+    exclude_hosts: '{{ private_address }}'
     timeout: 1
   register: cassandra_thrift_client_port_status
   ignore_errors: yes
+  with_items: 
+    - "{{ groups['cs'] }}"
 
-- name: Cassandra JMX port connectivity status
-  delegate_to: '{{ inventory_hostname }}'
+
+- name: Cassandra JMX port connectivity status  
   wait_for:
     port: '{{ cassandra_jmx_port }}'
-    host: '{{ private_address }}'
+    host: '{{ hostvars[item].ansible_host }}'
+    exclude_hosts: '{{ private_address }}'
     timeout: 1
   register: cassandra_jmx_port_status
   ignore_errors: yes
+    with_items: 
+    - "{{ groups['cs'] }}"
 
-- name: Cassandra CQL Native Transport port connectivity status
-  delegate_to: '{{ inventory_hostname }}'
+- name: Cassandra CQL Native Transport port connectivity status  
   wait_for:
     port: '{{ cassandra_cql_native_port }}'
-    host: '{{ private_address }}'
+    host: '{{ hostvars[item].ansible_host }}'
+    exclude_hosts: '{{ private_address }}'
     timeout: 1
   register: cassandra_cql_native_port_status
   ignore_errors: yes
+    with_items: 
+    - "{{ groups['cs'] }}"
 
-- name: Cassandra Non-SSL Gossip port connectivity status
-  delegate_to: '{{ inventory_hostname }}'
+- name: Cassandra Non-SSL Gossip port connectivity status  
   wait_for:
     port: '{{ cassandra_non_ssl_gossip_port }}'
-    host: '{{ private_address }}'
+    host: '{{ hostvars[item].ansible_host }}'
+    exclude_hosts: '{{ private_address }}'
     timeout: 1
   register: cassandra_non_ssl_port_status
   ignore_errors: yes
-  when: cass_secure is not defined or cass_secure | bool == false
+    with_items: 
+    - "{{ groups['cs'] }}"

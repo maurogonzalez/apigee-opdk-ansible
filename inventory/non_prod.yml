@@ -1,71 +1,85 @@
 all:
-  children:  
+  children:
 
     cs_dc1:
       hosts:
-        cs_1:      
+        cs_1_dc1:      
           ansible_host: xx.xx.xx.xx
-        cs_2:      
+        cs_2_dc1:      
           ansible_host: xx.xx.xx.xx
-        cs_3:      
+        cs_3_dc1:      
           ansible_host: xx.xx.xx.xx
-
     cs_dc2:
       hosts:
-        cs_4:      
+        cs_1_dc2:      
           ansible_host: xx.xx.xx.xx
-        cs_5:      
+        cs_2_dc2:      
           ansible_host: xx.xx.xx.xx
-        cs_6:      
+        cs_3_dc2:      
           ansible_host: xx.xx.xx.xx
+    cs:
+      children:
+        cs_dc1:
+        cs_dc2:
 
     ms_dc1:
       hosts:
-        ms_1:      
-          ansible_host: xx.xx.xx.xx    
-
+        ms_1_dc1:      
+          ansible_host: xx.xx.xx.xx 
     ms_dc2:
       hosts:
-        ms_2:      
-          ansible_host: xx.xx.xx.xx    
-
+        ms_2_dc2:      
+          ansible_host: xx.xx.xx.xx
+    ms:
+      children:
+        ms_dc1:          
+        ms_dc2:
+    
     ps_dc1:
       hosts:
-        ps_master:      
-          ansible_host: xx.xx.xx.xx    
-
+        ps_master_dc1:      
+          ansible_host: xx.xx.xx.xx
     ps_dc2:
       hosts:
-        ps_standby:      
-          ansible_host: xx.xx.xx.xx    
-
+        ps_standby_dc2:      
+          ansible_host: xx.xx.xx.xx        
+    ps:
+      children:      
+        ps_dc1:       
+        ps_dc2:          
+    
     qs_dc1:
       hosts:
-        qs_1:      
+        qs_1_dc1:      
           ansible_host: xx.xx.xx.xx
-        qs_2:      
-          ansible_host: xx.xx.xx.xx    
-
+        qs_2_dc1:      
+          ansible_host: xx.xx.xx.xx
     qs_dc2:
       hosts:
-        qs_3:      
+        qs_3_dc2:      
           ansible_host: xx.xx.xx.xx
-        qs_4:      
+        qs_4_dc2:      
           ansible_host: xx.xx.xx.xx    
-
+    qs:
+      children:
+        qs_dc1:          
+        qs_dc2:
+          
     baas:
       hosts:
-        stack:
+        baas_stack:
           ansible_host: xx.xx.xx.xx  
-        portal:      
+        baas_portal:      
           ansible_host: xx.xx.xx.xx
-        elasticsearch:      
+        baas_elasticsearch:      
           ansible_host: xx.xx.xx.xx  
         
     drupal:
       hosts:
         dp:      
-          ansible_host: xx.xx.xx.xx  
+          ansible_host: xx.xx.xx.xx
+
   vars:
-    ansible_user: SSH_USER
-    ansible_ssh_private_key_file: SSH_KEY
+    ansible_user: '{{ ssh_user }}'
+    ansible_ssh_private_key_file: '{{ ssh_key }}'
+    ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q {{ ssh_user }}@{{ ssh_bastion_host }}"'
