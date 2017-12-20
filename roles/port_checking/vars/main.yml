@@ -1,9 +1,10 @@
 # Apigee Edge Ports
-cassandra_jmx_port: 7199
-cassandra_thrift_client_port: 9160
-cassandra_cql_native_port: 9042
-cassandra_non_ssl_gossip_port: 7000
-cassandra_ssl_gossip_port: 7001
+cassandra_ports:
+  cassandra_jmx_port: 7199
+  cassandra_thrift_client_port: 9160
+  cassandra_cql_native_port: 9042
+  cassandra_non_ssl_gossip_port: 7000
+  # cassandra_ssl_gossip_port: 7001
 
 zk_data_port: 2181
 zk_leader_port: 2888

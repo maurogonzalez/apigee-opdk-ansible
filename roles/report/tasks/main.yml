@@ -1,0 +1,6 @@
+---
+- name: Cass report
+  template:
+    src: ../templates/cass_report.csv.j2
+    dest: /home/mauro/workspace/apigee/projects/private_cloud/ansible/reports/cass_report.csv
+  when: ansible_host == '127.0.0.1'

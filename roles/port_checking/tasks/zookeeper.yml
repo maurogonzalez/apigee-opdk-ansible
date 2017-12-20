@@ -4,7 +4,7 @@
   wait_for:
     port: '{{ zk_data_port }}'    
     host: "{{ hostvars[item].ansible_host }}"
-    exclude_hosts: '{{ private_address }}'
+    exclude_hosts: '{{ ansible_host }}'
     timeout: 1
   register: zk_data_port_status
   ignore_errors: yes

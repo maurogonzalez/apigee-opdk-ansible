@@ -1,8 +1,9 @@
 ---
-- hosts: all
+- hosts: localhost:cs
   roles:
-     - prereq
+     - report
   vars:
-    ssh_user: user
+    ssh_user: root
     ssh_key: ~/.ssh/ssh-key
+    ssh_pwd: xxxxxxx
     ssh_bastion_host: xx.xx.xx.xx

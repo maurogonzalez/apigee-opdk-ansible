@@ -1,46 +1,20 @@
 ---
 # tasks file for port-connectivity-validator
-- name: Cassandra thrift client port connectivity status  
-  wait_for:
-    port: '{{ cassandra_thrift_client_port }}'
-    host: "{{ hostvars[item].ansible_host }}"
-    exclude_hosts: '{{ private_address }}'
-    timeout: 1
-  register: cassandra_thrift_client_port_status
+- name: Cassandra client port connectivity status  
+  shell: |
+    PASS=`nmap {{ hostvars[item.0].ansible_host }} -p {{  cassandra_ports[item.1] }}|awk -F'/' '/filtered/ {print $1}'`;
+    if [ ${PASS} -eq {{ cassandra_ports[item.1] }} ]; then 
+      RESULT="false"
+    else
+      RESULT="true"
+    fi
+    echo "{{ ansible_host }},$RESULT,{{ hostvars[item.0].ansible_host }},{{ item.0 }},{{ cassandra_ports[item.1] }},{{ item.1 }}" 
+  register: 'cassandra_port_status'
   ignore_errors: yes
-  with_items: 
-    - "{{ groups['cs'] }}"
+  with_nested:
+    - '{{ groups["cs"] | difference([inventory_hostname]) }}'
+    - '{{ cassandra_ports }}'
 
-
-- name: Cassandra JMX port connectivity status  
-  wait_for:
-    port: '{{ cassandra_jmx_port }}'
-    host: '{{ hostvars[item].ansible_host }}'
-    exclude_hosts: '{{ private_address }}'
-    timeout: 1
-  register: cassandra_jmx_port_status
-  ignore_errors: yes
-    with_items: 
-    - "{{ groups['cs'] }}"
-
-- name: Cassandra CQL Native Transport port connectivity status  
-  wait_for:
-    port: '{{ cassandra_cql_native_port }}'
-    host: '{{ hostvars[item].ansible_host }}'
-    exclude_hosts: '{{ private_address }}'
-    timeout: 1
-  register: cassandra_cql_native_port_status
-  ignore_errors: yes
-    with_items: 
-    - "{{ groups['cs'] }}"
-
-- name: Cassandra Non-SSL Gossip port connectivity status  
-  wait_for:
-    port: '{{ cassandra_non_ssl_gossip_port }}'
-    host: '{{ hostvars[item].ansible_host }}'
-    exclude_hosts: '{{ private_address }}'
-    timeout: 1
-  register: cassandra_non_ssl_port_status
-  ignore_errors: yes
-    with_items: 
-    - "{{ groups['cs'] }}"
+- name: Set Fact Thrift port
+  set_fact:  
+    gossip_port: '{{ cassandra_port_status.results }}'
