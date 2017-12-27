@@ -1,0 +1,96 @@
+# Planet {{ json_schema.planet }}
+localhost ansible_connection=local
+{% for region in json_schema.regions %}
+
+# REGION: {{ region.name }}
+{# Set counter as object to make it works inside loops #}
+{%- set zkcs_count = [1] -%}
+{%- set zk_count = [1] -%}
+{%- set cs_count = [1] -%}
+{%- set rmp_count = [1] -%}
+{%- set r_count = [1] -%}
+{%- set mp_count = [1] %}
+[zk_cs_{{ region.name }}]
+{% for sn in region.subnets %}
+{% for n in sn.nodes %}
+{% if {'comp': 'CS'} in n.components and {'comp': 'ZK'} in n.components %}
+zk_cs_{{ zkcs_count.0 }}_{{ region.name }} ansible_host={{ n.ip }}
+{% if zkcs_count.append(zkcs_count.pop() + 1) %}{% endif %}
+{% endif %}
+{% endfor %}
+{% endfor %}
+[zk_{{ region.name }}]      
+{% for sn in region.subnets %}
+{% for n in sn.nodes %}
+{% if {'comp': 'ZK'} in n.components and {'comp': 'CS'} not in n.components %}
+zk_{{ zk_count.0 }}_{{ region.name }} ansible_host={{ n.ip }}
+{# increment count by 1 #}
+{% if zk_count.append(zk_count.pop() + 1) %}{% endif %}
+{% endif %}
+{% endfor %}
+{% endfor %}
+[cs_{{ region.name }}]      
+{% for sn in region.subnets %}
+{% for n in sn.nodes %}
+{% if {'comp': 'CS'} in n.components and {'comp': 'ZK'} not in n.components %}
+cs_{{ cs_count.0 }}_{{ region.name }} ansible_host={{ n.ip }}
+{# increment count by 1 #}
+{% if cs_count.append(zk_count.pop() + 1) %}{% endif %}
+{% endif %}
+{% endfor %}
+{% endfor %}
+[r_mp_{{ region.name }}]      
+{% for sn in region.subnets %}
+{% for n in sn.nodes %}
+{% if {'comp': 'R'} in n.components and {'comp': 'MP'} in n.components %}
+r_mp_{{ rmp_count.0 }}_{{ region.name }} ansible_host={{ n.ip }}
+{% endif %}
+{% endfor %}
+{% endfor %}
+[r_{{ region.name }}]      
+{% for sn in region.subnets %}
+{% for n in sn.nodes %}
+{% if {'comp': 'R'} in n.components and {'comp': 'MP'} not in n.components %}
+r_{{ r_count.0 }}_{{ region.name }} ansible_host={{ n.ip }}
+{# increment count by 1 #}
+{% if r_count.append(r_count.pop() + 1) %}{% endif %}
+{% endif %}
+{% endfor %}
+{% endfor %}
+[mp_{{ region.name }}] 
+{% for sn in region.subnets %}
+{% for n in sn.nodes %}
+{% if {'comp': 'MP'} in n.components  and {'comp': 'R'} not in n.components%}
+mp_{{ mp_count.0 }}_{{ region.name }} ansible_host={{ n.ip }}
+{# increment count by 1 #}
+{% if mp_count.append(mp_count.pop() + 1) %}{% endif %}
+{% endif %}
+{% endfor %}
+{% endfor %}
+{% endfor %}
+
+
+# COMPONENT GROUPS
+[cs:children]
+{% for region in json_schema.regions %}
+zk_cs_{{ region.name }}
+cs_{{ region.name }}
+{% endfor %}
+
+[all:vars]
+{% raw %}
+ansible_user='{{ ssh_user }}'
+ansible_ssh_private_key_file='{{ ssh_key }}'
+ansible_ssh_pass='{{ ssh_pwd }}'
+{% endraw %}
+{% if json_schema.ssh.bastion.present %}
+{% raw %}
+ansible_ssh_common_args='-o ProxyCommand="ssh -W %h:%p -q {{ ssh_user }}@{{ ssh_bastion_host }}"'
+{% endraw %}
+{% endif %}
+
+ 
+[defaults]
+{% if json_schema.ssh.ssh_password %}
+host_key_check=false
+{% endif %}

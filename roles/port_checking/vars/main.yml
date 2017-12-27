@@ -6,9 +6,10 @@ cassandra_ports:
   cassandra_non_ssl_gossip_port: 7000
   # cassandra_ssl_gossip_port: 7001
 
-zk_data_port: 2181
-zk_leader_port: 2888
-zk_voter_port: 3888
+zookeeper_ports:
+  zk_data_port: 2181
+  zk_leader_port: 2888
+  zk_voter_port: 3888
 
 mp_int_mgmt_port: 4528
 mp_ext_mgmt_port: 8082

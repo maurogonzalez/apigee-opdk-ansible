@@ -1,7 +1,7 @@
 host,open,target,port
 {% for host in groups['cs'] %}
 {{ host }}
-{% for item in hostvars[host].gossip_port %}
+{% for item in hostvars[host].cassandra_port %}
 {{ item.stdout }}
 {% endfor %}  
 {% endfor %}

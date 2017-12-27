@@ -1,0 +1,6 @@
+---
+- hosts: localhost
+  roles:
+     - inventory
+  vars:
+    json_schema: "{{ lookup('file', 'topology.json' ) | from_json }}"

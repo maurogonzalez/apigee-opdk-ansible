@@ -17,4 +17,4 @@
 
 - name: Set Fact Thrift port
   set_fact:  
-    gossip_port: '{{ cassandra_port_status.results }}'
+    cassandra_port: '{{ cassandra_port_status.results }}'
