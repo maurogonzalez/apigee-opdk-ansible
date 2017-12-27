@@ -1,0 +1,9 @@
+---
+- name: Update limits.conf
+  become: yes
+  copy:
+    src: apigee.limits.conf
+    dest: /etc/security/limits.d/apigee.limits.conf
+    owner: root
+    group: root
+    mode: 0644
