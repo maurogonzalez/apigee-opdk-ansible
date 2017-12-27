@@ -3,4 +3,4 @@
   roles:
      - inventory
   vars:
-    json_schema: "{{ lookup('file', 'topology.json' ) | from_json }}"
+    json_schema: "{{ lookup('file', topology_src ) | from_json }}"

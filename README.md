@@ -41,6 +41,14 @@ $ brew install pip
 
 ## Usage
 
+#### Create an ansible inventory file 
+
+- Create an [etp Edge Topology definition](https://github.com/yuriylesyuk/etp) (example _topology.json_)
 ```
-$ ansible-playbook {playbook_file} -i inventory/{inventory_file}
+$ ansible-playbook -e "topology_src=topology.json" create_inventory.yml
+```
+
+- Create port report (For now only CS)
+```
+$ ansible-playbook -i inventory/{inventory_file} port_report.yml
 ```
