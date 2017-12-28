@@ -1,0 +1,161 @@
+{
+	"planet": "UAT-1DC-8N",
+	"regions": [{
+			"id": 1,
+			"name": "dc-1",
+			"subnets": [{
+          "name": "management",
+          "tier": "dmz",
+          "nodes": [{
+            "id": 1,
+            "hostname": "DC1MS",
+            "ip": "10.5.0.2",
+            "components": [{
+                "comp": "UI"
+              },
+              {
+                "comp": "MS"
+              },
+              {
+                "comp": "OL"
+              }
+            ]
+          }]
+        }, {
+					"name": "datastorage",
+					"tier": "datastorage",
+					"nodes": [{
+							"id": 2,
+							"hostname": "DC1DS1",
+							"ip": "10.5.0.3",
+							"components": [{
+									"comp": "CS"
+								},
+								{
+									"comp": "ZK"
+								}
+							]
+						},
+						{
+							"id": 3,
+							"hostname": "DC1DS2",
+							"ip": "10.5.0.4",
+							"components": [{
+									"comp": "CS"
+								},
+								{
+									"comp": "ZK"
+								}
+							]
+						},
+						{
+							"id": 4,
+							"hostname": "DC1DS3",
+							"ip": "10.5.0.5",
+							"components": [{
+									"comp": "CS"
+								},
+								{
+									"comp": "ZK"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "gateway",
+					"tier": "dmz",
+					"nodes": [{
+							"id": 5,
+							"hostname": "DC1RMP1",
+							"ip": "10.5.0.6",
+							"components": [{
+									"comp": "R"
+								},
+								{
+									"comp": "MP"
+								}
+							]
+						},
+						{
+							"id": 6,
+							"hostname": "DC1RMP2",
+							"ip": "10.5.0.7",
+							"components": [{
+									"comp": "R"
+								},
+								{
+									"comp": "MP"
+								}
+							]
+						}
+					]
+				}, {
+					"name": "analytics",
+					"tier": "datastorage",
+					"nodes": [{
+							"id": 7,
+							"hostname": "DC1M",
+							"ip": "10.5.0.8",
+							"components": [{
+									"comp": "PS"
+								},
+								{
+									"comp": "QS"
+								},
+								{
+									"comp": "QD"
+								},
+								{
+									"comp": "PGm"
+								}
+							]
+						},
+						{
+							"id": 8,
+							"hostname": "DC1AXS",
+							"ip": "10.5.0.9",
+							"components": [{
+                "comp": "PS"
+              },{
+									"comp": "QS"
+								},
+								{
+									"comp": "QD"
+								},
+								{
+									"comp": "PGs"
+								}
+							]
+						}
+					]
+				}
+			],
+			"tiers": [{
+					"name": "dmz"
+				},
+				{
+					"name": "datastorage"
+				}
+			]
+		}
+	],
+	"customer": {
+		"brand": "Apigee-OPDK",
+		"adminEmail": "opdk@google.com",
+		"adminPassword": "Apigee123!",
+    "smtpSkip": "n",
+    "smtpMailFrom": "Edge Admin",
+		"smtpHost": "smtp.host.com",
+		"smtpPort": "25",
+		"smtpEmail": "smtp@google.com",
+		"smtpPassword": "Apigee123!",
+		"smtpSSL": "n"
+	},
+	"ssh": {
+		"bastion": {
+			"present": false
+		},
+		"ssh_password": true
+	}
+}

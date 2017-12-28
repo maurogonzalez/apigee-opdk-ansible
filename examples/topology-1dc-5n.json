@@ -1,0 +1,125 @@
+{
+	"planet": "UAT-1DC-5N",
+	"regions": [{
+			"id": 1,
+			"name": "dc-1",
+			"subnets": [{
+          "name": "core",
+          "tier": "core",
+          "nodes": [{
+            "id": 1,
+            "hostname": "DC1MS",
+            "ip": "10.5.0.2",
+            "components": [{
+                "comp": "CS"
+              },
+              {
+                "comp": "ZK"
+              },{
+                "comp": "UI"
+              },
+              {
+                "comp": "MS"
+              },
+              {
+                "comp": "OL"
+              }
+            ]
+          },{
+            "id": 2,
+            "hostname": "DC1DS2",
+            "ip": "10.5.0.3",
+            "components": [{
+                "comp": "CS"
+              },
+              {
+                "comp": "ZK"
+              },
+              {
+                "comp": "R"
+              },
+              {
+                "comp": "MP"
+              }
+            ]
+          },
+          {
+            "id": 3,
+            "hostname": "DC1DS3",
+            "ip": "10.5.0.4",
+            "components": [{
+                "comp": "CS"
+              },
+              {
+                "comp": "ZK"
+              },
+              {
+                "comp": "R"
+              },
+              {
+                "comp": "MP"
+              }
+            ]
+          },
+         {
+            "id": 4,
+            "hostname": "DC1RAX1",
+            "ip": "10.5.0.5",
+            "components": [{
+                "comp": "PS"
+              },
+              {
+                "comp": "QS"
+              },
+              {
+                "comp": "QD"
+              },
+              {
+                "comp": "PGm"
+              }
+            ]
+          },{
+            "id": 5,
+            "hostname": "DC1RAX2",
+            "ip": "10.5.0.6",
+            "components": [{
+                "comp": "PS"
+              },
+              {
+                "comp": "QS"
+              },
+              {
+                "comp": "QD"
+              },
+              {
+                "comp": "PGs"
+              }
+            ]
+          }]
+        }
+			],
+			"tiers": [{
+					"name": "core"
+        }
+			]
+		}
+	],
+	"customer": {
+		"brand": "Apigee-OPDK",
+		"adminEmail": "opdk@google.com",
+		"adminPassword": "Apigee123!",
+    "smtpSkip": "n",
+    "smtpMailFrom": "Edge Admin",
+		"smtpHost": "smtp.host.com",
+		"smtpPort": "25",
+		"smtpEmail": "smtp@google.com",
+		"smtpPassword": "Apigee123!",
+		"smtpSSL": "n"
+	},
+	"ssh": {
+		"bastion": {
+			"present": false
+		},
+		"ssh_password": true
+	}
+}

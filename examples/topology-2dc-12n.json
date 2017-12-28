@@ -1,0 +1,232 @@
+{
+	"planet": "UAT-2DC-12N",
+	"regions": [{
+			"id": 1,
+			"name": "dc-1",
+			"subnets": [{
+          "name": "core",
+          "tier": "core",
+          "nodes": [{
+            "id": 1,
+            "hostname": "DC1MS",
+            "ip": "10.5.0.2",
+            "components": [{
+                "comp": "CS"
+              },
+              {
+                "comp": "ZK"
+              },{
+                "comp": "UI"
+              },
+              {
+                "comp": "MS"
+              },
+              {
+                "comp": "OL"
+              }
+            ]
+          },{
+            "id": 2,
+            "hostname": "DC1DS2",
+            "ip": "10.5.0.3",
+            "components": [{
+                "comp": "CS"
+              },
+              {
+                "comp": "ZK"
+              },
+              {
+                "comp": "R"
+              },
+              {
+                "comp": "MP"
+              }
+            ]
+          },
+          {
+            "id": 3,
+            "hostname": "DC1DS3",
+            "ip": "10.5.0.4",
+            "components": [{
+                "comp": "CS"
+              },
+              {
+                "comp": "ZK"
+              },
+              {
+                "comp": "R"
+              },
+              {
+                "comp": "MP"
+              }
+            ]
+          },
+         {
+            "id": 4,
+            "hostname": "DC1QD1",
+            "ip": "10.5.0.5",
+            "components": [
+              {
+                "comp": "QS"
+              },
+              {
+                "comp": "QD"
+              }
+            ]
+          },{
+            "id": 5,
+            "hostname": "DC1QD2",
+            "ip": "10.5.0.6",
+            "components": [
+              {
+                "comp": "QS"
+              },
+              {
+                "comp": "QD"
+              }
+            ]
+          },
+          {
+            "id": 6,
+            "hostname": "DC1PGM",
+            "ip": "10.5.0.7",
+            "components": [{
+                "comp": "PS"
+              },              
+              {
+                "comp": "PGm"
+              }
+            ]
+          }]
+        }
+			],
+			"tiers": [{
+					"name": "core"
+        }
+			]
+    },
+    {
+			"id": 2,
+			"name": "dc-2",
+			"subnets": [{
+          "name": "core",
+          "tier": "core",
+          "nodes": [{
+            "id": 7,
+            "hostname": "DC2MS",
+            "ip": "10.5.0.8",
+            "components": [{
+                "comp": "CS"
+              },
+              {
+                "comp": "ZK"
+              },{
+                "comp": "UI"
+              },
+              {
+                "comp": "MS"
+              },
+              {
+                "comp": "OL"
+              }
+            ]
+          },{
+            "id": 8,
+            "hostname": "DC2DS2",
+            "ip": "10.5.0.9",
+            "components": [{
+                "comp": "CS"
+              },
+              {
+                "comp": "ZK"
+              },
+              {
+                "comp": "R"
+              },
+              {
+                "comp": "MP"
+              }
+            ]
+          },
+          {
+            "id": 9,
+            "hostname": "DC2DS3",
+            "ip": "10.5.0.10",
+            "components": [{
+                "comp": "CS"
+              },
+              {
+                "comp": "ZK"
+              },
+              {
+                "comp": "R"
+              },
+              {
+                "comp": "MP"
+              }
+            ]
+          },
+         {
+            "id": 10,
+            "hostname": "DC2QD1",
+            "ip": "10.5.0.11",
+            "components": [
+              {
+                "comp": "QS"
+              },
+              {
+                "comp": "QD"
+              }
+            ]
+          },{
+            "id": 11,
+            "hostname": "DC2QD2",
+            "ip": "10.5.0.12",
+            "components": [
+              {
+                "comp": "QS"
+              },
+              {
+                "comp": "QD"
+              }
+            ]
+          },
+          {
+            "id": 12,
+            "hostname": "DC2PGM",
+            "ip": "10.5.0.13",
+            "components": [{
+                "comp": "PS"
+              },              
+              {
+                "comp": "PGs"
+              }
+            ]
+          }]
+        }
+			],
+			"tiers": [{
+					"name": "core"
+        }
+			]
+		}
+	],
+	"customer": {
+		"brand": "Apigee-OPDK",
+		"adminEmail": "opdk@google.com",
+		"adminPassword": "Apigee123!",
+    "smtpSkip": "n",
+    "smtpMailFrom": "Edge Admin",
+		"smtpHost": "smtp.host.com",
+		"smtpPort": "25",
+		"smtpEmail": "smtp@google.com",
+		"smtpPassword": "Apigee123!",
+		"smtpSSL": "n"
+	},
+	"ssh": {
+		"bastion": {
+			"present": false
+		},
+		"ssh_password": true
+	}
+}
