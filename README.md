@@ -4,6 +4,10 @@ This repo is intended to be a small and more friendly for non ansible users subs
 
 ## Requirements
 - ansible >= 2.2
+- nmap
+- node (to create topology diagram)
+- etp (to create topology diagram)
+
 #### Latest Releases Via Apt (Debian)
 Add the following line to _/etc/apt/sources.list_:
 
