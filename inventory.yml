@@ -2,5 +2,7 @@
 - hosts: localhost
   roles:
      - inventory
+     - { role: diagram, when: diagram is defined }
+
   vars:
     json_schema: "{{ lookup('file', topology_src ) | from_json }}"

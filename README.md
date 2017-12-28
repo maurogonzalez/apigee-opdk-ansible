@@ -48,15 +48,25 @@ $ brew install nmap
 #### Edge Topology Definition ([etp Edge Topology definition](https://github.com/yuriylesyuk/etp))
 A topology of an Edge installation is represented as a JSON document, defining collections of nodes, subnets, and layout of the particular planet.
 
-An example for a 5 node with 2 regions topology is given in `examples/topology.json`
+An example for a 1 region with 5 nodes topology is given in _examples/topology-1dc-5n.json_
 
-#### Create an ansible inventory file 
+#### Create an ansible inventory file and topology diagram
 
-- Create an [etp Edge Topology definition](https://github.com/yuriylesyuk/etp) (example `examples/topology.json`)
+First create an [etp edge topology definition json file](https://github.com/yuriylesyuk/etp) (example _examples/topology-1dc-5n.json_)
 ```
-$ ansible-playbook -e "topology_src=topology.json" create_inventory.yml
+$ ansible-playbook -e "topology_src=topology.json" inventory.yml
 ```
-- Find the response files under `inventory/inventory_{planet}.INI`
+Optionally you can create the topology diagram in the same run setting the diagram variable to any value
+```
+$ ansible-playbook -e "topology_src=examples/topology-1dc-5n.json diagram=1" inventory.yml
+```
+- Create only the diagram:
+```
+$ ansible-playbook -e "topology_src=examples/topology-1dc-5n.json" diagram.yml
+```
+- Find the files under:
+  - _inventory/inventory\_{planet}.INI_
+  - _reports/topology-1dc-5n.svg_
 
 #### Create response files from inventory 
 
