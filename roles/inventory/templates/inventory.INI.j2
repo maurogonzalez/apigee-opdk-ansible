@@ -115,6 +115,32 @@ localhost ansible_connection=local
 {{ r.name }}-ds
 {% endfor %}
 
+[ms:children]
+# Listing of all the Management Server nodes across the planet
+{% for r in servers.regions %}
+{{ r.name }}-ms
+{% endfor %}
+
+[r:children]
+# Listing of all the Router nodes across the planet
+{% for r in servers.regions %}
+{{ r.name }}-rmp
+{{ r.name }}-r
+{% endfor %}
+
+[mp:children]
+# Listing of all the Message Processor nodes across the planet
+{% for r in servers.regions %}
+{{ r.name }}-rmp
+{{ r.name }}-mp
+{% endfor %}
+
+[qpid:children]
+# Listing of all the QPIDD nodes across the planet
+{% for r in servers.regions %}
+{{ r.name }}-qpid
+{% endfor %}
+
 [pg:children]
 # Listing of all the Postgres nodes across the planet
 {% for r in servers.regions %}
@@ -127,13 +153,6 @@ localhost ansible_connection=local
 {% for p in r.nodes if 'PG' in p.components %}
 {{ r.name }}-pg
 {% endfor %}
-{% endfor %}
-
-[mp:children]
-# Listing of all the Message Processor nodes across the planet
-{% for r in servers.regions %}
-{{ r.name }}-rmp
-{{ r.name }}-mp
 {% endfor %}
 
 [all:vars]

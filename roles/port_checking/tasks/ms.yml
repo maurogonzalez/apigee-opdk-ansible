@@ -1,0 +1,25 @@
+---
+# tasks file for port-connectivity-validator
+- name: Include ms groups and ports
+  include_vars:
+    file: ms.yml
+
+- name: Management Server port connectivity status  
+  shell: |
+    PASS=`nmap {{ hostvars[item.0].ansible_host }} -p {{  item.1 }}|awk -F'/' '/filtered/ {print $1}'`;
+    if [ ${PASS} -eq {{ item.1 }} ]; then 
+      RESULT="false"
+    else
+      RESULT="true"
+    fi
+    echo "{{ ansible_host }},$RESULT,{{ hostvars[item.0].ansible_host }},{{ item.0 }},{{ item.1 }}" 
+  register: ms_ds_port_status
+  ignore_errors: yes
+  with_nested:
+    - "{{ groups['ds'] }}"
+    - "{{ ms_groups['ds'] }}"
+ 
+    
+- name: Set Fact Thrift port
+  set_fact:  
+    ms_ds_port: '{{ ms_ds_port_status.results }}'

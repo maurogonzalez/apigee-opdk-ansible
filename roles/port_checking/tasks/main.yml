@@ -1,3 +1,9 @@
 ---  
-- include: cassandra.yml
+- include: zk.yml
+  when: ansible_host != 'localhost'
+
+- include: cs.yml
+  when: ansible_host != 'localhost'
+
+- include: ms.yml
   when: ansible_host != 'localhost'

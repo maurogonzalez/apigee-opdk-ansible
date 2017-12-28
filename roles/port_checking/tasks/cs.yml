@@ -9,12 +9,12 @@
       RESULT="true"
     fi
     echo "{{ ansible_host }},$RESULT,{{ hostvars[item.0].ansible_host }},{{ item.0 }},{{ cassandra_ports[item.1] }},{{ item.1 }}" 
-  register: 'cassandra_port_status'
+  register: 'cs_port_status'
   ignore_errors: yes
   with_nested:
-    - '{{ groups["cs"] | difference([inventory_hostname]) }}'
-    - '{{ cassandra_ports }}'
+    - "{{ groups['ds'] | difference([inventory_hostname]) }}"
+    - "{{ cassandra_ports | difference('cassandra_jmx_port') }}"
 
 - name: Set Fact Thrift port
   set_fact:  
-    cassandra_port: '{{ cassandra_port_status.results }}'
+    cs_port: '{{ cs_port_status.results }}'

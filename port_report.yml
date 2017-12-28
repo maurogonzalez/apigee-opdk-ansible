@@ -1,8 +1,9 @@
-- hosts: localhost:cs
+---
+- hosts: localhost:ds
   roles:
      - report
   vars:
     ssh_user: root
     ssh_key: ~/.ssh/ssh-key
-    ssh_pwd: xxxxx
+    ssh_pwd: Pz7bj2QNDqBV
     ssh_bastion_host: xx.xx.xx.xx
