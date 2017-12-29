@@ -82,3 +82,10 @@ $ ansible-playbook -e -i inventory/{inventory_file} response_files.yml
 $ ansible-playbook -i inventory/{inventory_file} port_report.yml
 ```
 - Find the report files under `reports/port_connectivity_report_{planet}.csv`
+
+#### Install all prereqs and the apigee-setup utility accross the planet
+
+```
+$ ansible-playbook -i inventory/{inventory_file} -e "apigee_user={ apigee.software.user } \
+  apigee_pwd={ apigee.software.pwd }"  prerequisites.yml
+```

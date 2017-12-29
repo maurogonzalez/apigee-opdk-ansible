@@ -25,6 +25,7 @@
 - name: Disable SELINUX
   become: yes
   command: /usr/sbin/setenforce 0
+  ignore_errors: yes
   
 - name: Create the apigee group
   become: yes
@@ -61,13 +62,12 @@
 - name: Copy response files and license
   become: yes
   copy:
-    src: "{{ item }}"
+    src: "{{ playbook_dir }}/files/response_{{ planet }}_{{ item }}.cfg"
     dest: /tmp/apigee/
     owner: apigee
     group: apigee
   with_items:
-    - files/response_dc1.txt
-    - files/response_dc2.txt
+    - "{{ regions.split(',') }}"
 
 - name: Download bootstrap
   become: yes
@@ -81,3 +81,6 @@
   become: yes
   command: bash /tmp/apigee/bootstrap_4.17.09.sh apigeeuser={{ apigee_user }} apigeepassword={{ apigee_pwd }}
   
+- name: Install apigee-setup utility
+  become: yes
+  command: bash /opt/apigee/apigee-service/bin/apigee-service apigee-setup install
