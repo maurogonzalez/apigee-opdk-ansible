@@ -15,7 +15,7 @@ localhost ansible_connection=local
 {% for n in sn.nodes %}
 {% if n.ip not in ips %}
 {% set node_name=region.name ~ '-n' ~ node_count.0 %}
-{{ node_name }} ansible_host={{ n.ip }} env_ref={{ node_name.upper() | replace('-','') }}
+{{ node_name }} ansible_host={{ n.ip }} env_ref={{ node_name.upper() | replace('-','') }} region={{ region.name }}
 {% for sc in regions if sc.name==region.name %}
 {% set x=sc.nodes.append({"name": node_name, "ip": n.ip, "components": []}) %}
 {% endfor %}

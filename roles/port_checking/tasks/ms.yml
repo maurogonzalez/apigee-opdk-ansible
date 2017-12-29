@@ -4,7 +4,7 @@
   include_vars:
     file: ms.yml
 
-- name: Management Server DS port connectivity status  
+- name: MS -> DS port connectivity status  
   shell: |
     PASS=`nmap {{ hostvars[item.0].ansible_host }} -p {{  item.1 }}|awk -F'/' '/filtered/ {print $1}'`;
     if [ ${PASS} -eq {{ item.1 }} ]; then 
@@ -19,7 +19,8 @@
     - "{{ groups['ds'] }}"
     - "{{ ms_groups['ds'] }}"
 
-- name: Management Server Router port connectivity status  
+# REGIONAL
+- name: MS -> R port connectivity status  
   shell: |
     PASS=`nmap {{ hostvars[item.0].ansible_host }} -p {{  item.1 }}|awk -F'/' '/filtered/ {print $1}'`;
     if [ ${PASS} -eq {{ item.1 }} ]; then 
@@ -31,10 +32,10 @@
   register: ms_r_port_status
   ignore_errors: yes
   with_nested:
-    - "{{ groups['r'] }}"
+    - "{{ groups[node_region ~ '-r'] }}"
     - "{{ ms_groups['r'] }}"
  
-- name: Management Server MP port connectivity status  
+- name: MS -> MP port connectivity status  
   shell: |
     PASS=`nmap {{ hostvars[item.0].ansible_host }} -p {{  item.1 }}|awk -F'/' '/filtered/ {print $1}'`;
     if [ ${PASS} -eq {{ item.1 }} ]; then 
@@ -49,7 +50,7 @@
     - "{{ groups['mp'] }}"
     - "{{ ms_groups['mp'] }}"
 
-- name: Management Server PG port connectivity status  
+- name: MS -> PG port connectivity status  
   shell: |
     PASS=`nmap {{ hostvars[item.0].ansible_host }} -p {{  item.1 }}|awk -F'/' '/filtered/ {print $1}'`;
     if [ ${PASS} -eq {{ item.1 }} ]; then 
@@ -64,7 +65,8 @@
     - "{{ groups['pg'] }}"
     - "{{ ms_groups['pg'] }}"
 
-- name: Management Server QPIDD port connectivity status  
+#REGIONAL
+- name: MS -> QPIDD port connectivity status  
   shell: |
     PASS=`nmap {{ hostvars[item.0].ansible_host }} -p {{  item.1 }}|awk -F'/' '/filtered/ {print $1}'`;
     if [ ${PASS} -eq {{ item.1 }} ]; then 
@@ -76,7 +78,7 @@
   register: ms_qpid_port_status
   ignore_errors: yes
   with_nested:
-    - "{{ groups['qpid'] }}"
+    - "{{ groups[node_region ~ '-qpid'] }}"
     - "{{ ms_groups['qpid'] }}"
 
 - name: Set Fact DS port

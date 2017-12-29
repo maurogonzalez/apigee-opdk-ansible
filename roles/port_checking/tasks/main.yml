@@ -1,9 +1,20 @@
 ---  
+# Region condition
+- name: Set region flag
+  set_fact:
+    node_region: "{{ hostvars[inventory_hostname]['region'] }}"
+
 - include: zk.yml
-  when: ansible_host != 'localhost'
+  when: inventory_hostname in groups['ds']
 
 - include: cs.yml
-  when: ansible_host != 'localhost'
+  when: inventory_hostname in groups['ds']
 
 - include: ms.yml
-  when: ansible_host != 'localhost'
+  when: inventory_hostname in groups['ms']
+
+- include: mp.yml
+  when: inventory_hostname in groups['mp']
+
+- include: r.yml
+  when: inventory_hostname in groups['r']

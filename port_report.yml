@@ -1,5 +1,5 @@
 ---
-- hosts: localhost:ds
+- hosts: localhost:planet
   roles:
      - report
   vars:
