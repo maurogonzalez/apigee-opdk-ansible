@@ -1,119 +1,119 @@
 HOST,TARGET,NODE,PORT,OPEN
-CASSANDRA
+CASSANDRA,,,,
 {% for host in groups['ds'] %}
-{{ host }}
+{{ host }},,,,
 {% for item in hostvars[host].cs_port %}
 {{ item.stdout }}
 {% endfor %}  
 {% endfor %}
 
-ZOOKEEPER
+ZOOKEEPER,,,,
 {% for host in groups['ds'] %}
-{{ host }}
+{{ host }},,,,
 {% for item in hostvars[host].zk_port %}
 {{ item.stdout }}
 {% endfor %}  
 {% endfor %}
 
-MANAGEMENT SERVER
-# DS
+MANAGEMENT SERVER,,,,
+# DS,,,,
 {% for host in groups['ms'] %}
-{{ host }}
+{{ host }},,,,
 {% for item in hostvars[host].ms_ds_port %}
 {{ item.stdout }}
 {% endfor %}  
 {% endfor %}
-# R
+# R,,,,
 {% for host in groups['ms'] %}
-{{ host }}
+{{ host }},,,,
 {% for item in hostvars[host].ms_r_port %}
 {{ item.stdout }}
 {% endfor %}  
 {% endfor %}
-# MP
+# MP,,,,
 {% for host in groups['ms'] %}
-{{ host }}
+{{ host }},,,,
 {% for item in hostvars[host].ms_mp_port %}
 {{ item.stdout }}
 {% endfor %}  
 {% endfor %}
-# PG
+# PG,,,,
 {% for host in groups['ms'] %}
-{{ host }}
+{{ host }},,,,
 {% for item in hostvars[host].ms_pg_port %}
 {{ item.stdout }}
 {% endfor %}  
 {% endfor %}
-# QPIDD
+# QPIDD,,,,
 {% for host in groups['ms'] %}
-{{ host }}
+{{ host }},,,,
 {% for item in hostvars[host].ms_qpid_port %}
 {{ item.stdout }}
 {% endfor %}  
 {% endfor %}
 
-MESSAGE PROCESSOR
-# DS
+MESSAGE PROCESSOR,,,,
+# DS,,,,
 {% for host in groups['mp'] %}
-{{ host }}
+{{ host }},,,,
 {% for item in hostvars[host].mp_ds_port %}
 {{ item.stdout }}
 {% endfor %}  
 {% endfor %}
-# MS
+# MS,,,,
 {% for host in groups['mp'] %}
-{{ host }}
+{{ host }},,,,
 {% for item in hostvars[host].mp_ms_port %}
 {{ item.stdout }}
 {% endfor %}  
 {% endfor %}
-# MP
+# MP,,,,
 {% for host in groups['mp'] %}
-{{ host }}
+{{ host }},,,,
 {% for item in hostvars[host].mp_mp_port %}
 {{ item.stdout }}
 {% endfor %}  
 {% endfor %}
-# QPIDD
+# QPIDD,,,,
 {% for host in groups['mp'] %}
-{{ host }}
+{{ host }},,,,
 {% for item in hostvars[host].mp_qpid_port %}
 {{ item.stdout }}
 {% endfor %}  
 {% endfor %}
 
-ROUTER
-# DS
+ROUTER,,,,
+# DS,,,,
 {% for host in groups['r'] %}
-{{ host }}
+{{ host }},,,,
 {% for item in hostvars[host].r_ds_port %}
 {{ item.stdout }}
 {% endfor %}  
 {% endfor %}
-# MS
+# MS,,,,
 {% for host in groups['r'] %}
-{{ host }}
+{{ host }},,,,
 {% for item in hostvars[host].r_ms_port %}
 {{ item.stdout }}
 {% endfor %}  
 {% endfor %}
-# R
+# R,,,,
 {% for host in groups['r'] %}
-{{ host }}
+{{ host }},,,,
 {% for item in hostvars[host].r_r_port %}
 {{ item.stdout }}
 {% endfor %}  
 {% endfor %}
-# MP
+# MP,,,,
 {% for host in groups['r'] %}
-{{ host }}
+{{ host }},,,,
 {% for item in hostvars[host].r_mp_port %}
 {{ item.stdout }}
 {% endfor %}  
 {% endfor %}
-# QPIDD
+# QPIDD,,,,
 {% for host in groups['r'] %}
-{{ host }}
+{{ host }},,,,
 {% for item in hostvars[host].r_qpid_port %}
 {{ item.stdout }}
 {% endfor %}  
