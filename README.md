@@ -73,12 +73,12 @@ $ ansible-playbook -e "topology_src=examples/topology-1dc-5n.json" diagram.yml
 ```
 $ ansible-playbook -e -i inventory/{inventory_file} response_files.yml
 ```
-- Find the response files under `files/response_{region}.cfg`
+- Find the response files under `files/response_{planet}_{region}.cfg`
 
-#### Create port checking report (Under construction) 
+#### Create port checking report
 
-- Create port report (For now only CS)
+- Create port report for a whole planet using an inventory
 ```
 $ ansible-playbook -i inventory/{inventory_file} port_report.yml
 ```
-- Find the report files under `report/{component}_report.csv`
+- Find the report files under `reports/port_connectivity_report_{planet}.csv`
