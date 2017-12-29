@@ -1,4 +1,4 @@
-HOST,OPEN,TARGET,PORT
+HOST,TARGET,NODE,PORT,OPEN
 CASSANDRA
 {% for host in groups['ds'] %}
 {{ host }}
@@ -16,10 +16,38 @@ ZOOKEEPER
 {% endfor %}
 
 MANAGEMENT SERVER
-DS
+# DS
 {% for host in groups['ms'] %}
 {{ host }}
 {% for item in hostvars[host].ms_ds_port %}
+{{ item.stdout }}
+{% endfor %}  
+{% endfor %}
+# ROUTER
+{% for host in groups['ms'] %}
+{{ host }}
+{% for item in hostvars[host].ms_r_port %}
+{{ item.stdout }}
+{% endfor %}  
+{% endfor %}
+# MESSAGE PROCESSOR
+{% for host in groups['ms'] %}
+{{ host }}
+{% for item in hostvars[host].ms_mp_port %}
+{{ item.stdout }}
+{% endfor %}  
+{% endfor %}
+# POSTGRES
+{% for host in groups['ms'] %}
+{{ host }}
+{% for item in hostvars[host].ms_pg_port %}
+{{ item.stdout }}
+{% endfor %}  
+{% endfor %}
+# QPIDD
+{% for host in groups['ms'] %}
+{{ host }}
+{% for item in hostvars[host].ms_qpid_port %}
 {{ item.stdout }}
 {% endfor %}  
 {% endfor %}

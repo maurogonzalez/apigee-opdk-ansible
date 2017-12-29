@@ -1,69 +1,99 @@
-HOST,OPEN,TARGET,PORT
+HOST,TARGET,NODE,PORT,OPEN
 CASSANDRA
 dc-1-n1
-10.5.0.2,true,10.5.0.3,dc-1-n2,9160,cassandra_thrift_client_port
-10.5.0.2,true,10.5.0.3,dc-1-n2,9042,cassandra_cql_native_port
-10.5.0.2,true,10.5.0.3,dc-1-n2,7000,cassandra_non_ssl_gossip_port
-10.5.0.2,true,10.5.0.4,dc-1-n3,9160,cassandra_thrift_client_port
-10.5.0.2,true,10.5.0.4,dc-1-n3,9042,cassandra_cql_native_port
-10.5.0.2,true,10.5.0.4,dc-1-n3,7000,cassandra_non_ssl_gossip_port
+10.5.0.2,10.5.0.3,dc-1-n2,9160,true
+10.5.0.2,10.5.0.3,dc-1-n2,9042,true
+10.5.0.2,10.5.0.3,dc-1-n2,7000,true
+10.5.0.2,10.5.0.4,dc-1-n3,9160,true
+10.5.0.2,10.5.0.4,dc-1-n3,9042,true
+10.5.0.2,10.5.0.4,dc-1-n3,7000,true
   
 dc-1-n2
-10.5.0.3,true,10.5.0.2,dc-1-n1,9160,cassandra_thrift_client_port
-10.5.0.3,true,10.5.0.2,dc-1-n1,9042,cassandra_cql_native_port
-10.5.0.3,true,10.5.0.2,dc-1-n1,7000,cassandra_non_ssl_gossip_port
-10.5.0.3,true,10.5.0.4,dc-1-n3,9160,cassandra_thrift_client_port
-10.5.0.3,true,10.5.0.4,dc-1-n3,9042,cassandra_cql_native_port
-10.5.0.3,true,10.5.0.4,dc-1-n3,7000,cassandra_non_ssl_gossip_port
+10.5.0.3,10.5.0.2,dc-1-n1,9160,true
+10.5.0.3,10.5.0.2,dc-1-n1,9042,true
+10.5.0.3,10.5.0.2,dc-1-n1,7000,true
+10.5.0.3,10.5.0.4,dc-1-n3,9160,true
+10.5.0.3,10.5.0.4,dc-1-n3,9042,true
+10.5.0.3,10.5.0.4,dc-1-n3,7000,true
   
 dc-1-n3
-10.5.0.4,true,10.5.0.2,dc-1-n1,9160,cassandra_thrift_client_port
-10.5.0.4,true,10.5.0.2,dc-1-n1,9042,cassandra_cql_native_port
-10.5.0.4,true,10.5.0.2,dc-1-n1,7000,cassandra_non_ssl_gossip_port
-10.5.0.4,true,10.5.0.3,dc-1-n2,9160,cassandra_thrift_client_port
-10.5.0.4,true,10.5.0.3,dc-1-n2,9042,cassandra_cql_native_port
-10.5.0.4,true,10.5.0.3,dc-1-n2,7000,cassandra_non_ssl_gossip_port
+10.5.0.4,10.5.0.2,dc-1-n1,9160,true
+10.5.0.4,10.5.0.2,dc-1-n1,9042,true
+10.5.0.4,10.5.0.2,dc-1-n1,7000,true
+10.5.0.4,10.5.0.3,dc-1-n2,9160,true
+10.5.0.4,10.5.0.3,dc-1-n2,9042,true
+10.5.0.4,10.5.0.3,dc-1-n2,7000,true
   
 
 ZOOKEEPER
 dc-1-n1
-10.5.0.2,true,10.5.0.3,dc-1-n2,2888,zk_leader_port
-10.5.0.2,true,10.5.0.3,dc-1-n2,3888,zk_voter_port
-10.5.0.2,true,10.5.0.3,dc-1-n2,2181,zk_data_port
-10.5.0.2,true,10.5.0.4,dc-1-n3,2888,zk_leader_port
-10.5.0.2,true,10.5.0.4,dc-1-n3,3888,zk_voter_port
-10.5.0.2,true,10.5.0.4,dc-1-n3,2181,zk_data_port
+10.5.0.2,10.5.0.3,dc-1-n2,2888,true
+10.5.0.2,10.5.0.3,dc-1-n2,3888,true
+10.5.0.2,10.5.0.3,dc-1-n2,2181,true
+10.5.0.2,10.5.0.4,dc-1-n3,2888,true
+10.5.0.2,10.5.0.4,dc-1-n3,3888,true
+10.5.0.2,10.5.0.4,dc-1-n3,2181,true
   
 dc-1-n2
-10.5.0.3,true,10.5.0.2,dc-1-n1,2888,zk_leader_port
-10.5.0.3,true,10.5.0.2,dc-1-n1,3888,zk_voter_port
-10.5.0.3,true,10.5.0.2,dc-1-n1,2181,zk_data_port
-10.5.0.3,true,10.5.0.4,dc-1-n3,2888,zk_leader_port
-10.5.0.3,true,10.5.0.4,dc-1-n3,3888,zk_voter_port
-10.5.0.3,true,10.5.0.4,dc-1-n3,2181,zk_data_port
+10.5.0.3,10.5.0.2,dc-1-n1,2888,true
+10.5.0.3,10.5.0.2,dc-1-n1,3888,true
+10.5.0.3,10.5.0.2,dc-1-n1,2181,true
+10.5.0.3,10.5.0.4,dc-1-n3,2888,true
+10.5.0.3,10.5.0.4,dc-1-n3,3888,true
+10.5.0.3,10.5.0.4,dc-1-n3,2181,true
   
 dc-1-n3
-10.5.0.4,true,10.5.0.2,dc-1-n1,2888,zk_leader_port
-10.5.0.4,true,10.5.0.2,dc-1-n1,3888,zk_voter_port
-10.5.0.4,true,10.5.0.2,dc-1-n1,2181,zk_data_port
-10.5.0.4,true,10.5.0.3,dc-1-n2,2888,zk_leader_port
-10.5.0.4,true,10.5.0.3,dc-1-n2,3888,zk_voter_port
-10.5.0.4,true,10.5.0.3,dc-1-n2,2181,zk_data_port
+10.5.0.4,10.5.0.2,dc-1-n1,2888,true
+10.5.0.4,10.5.0.2,dc-1-n1,3888,true
+10.5.0.4,10.5.0.2,dc-1-n1,2181,true
+10.5.0.4,10.5.0.3,dc-1-n2,2888,true
+10.5.0.4,10.5.0.3,dc-1-n2,3888,true
+10.5.0.4,10.5.0.3,dc-1-n2,2181,true
   
 
 MANAGEMENT SERVER
-DS
+# DS
 dc-1-n1
-10.5.0.2,true,10.5.0.2,dc-1-n1,7199
-10.5.0.2,true,10.5.0.2,dc-1-n1,9042
-10.5.0.2,true,10.5.0.2,dc-1-n1,9160
-10.5.0.2,true,10.5.0.2,dc-1-n1,2181
-10.5.0.2,true,10.5.0.3,dc-1-n2,7199
-10.5.0.2,true,10.5.0.3,dc-1-n2,9042
-10.5.0.2,true,10.5.0.3,dc-1-n2,9160
-10.5.0.2,true,10.5.0.3,dc-1-n2,2181
-10.5.0.2,true,10.5.0.4,dc-1-n3,7199
-10.5.0.2,true,10.5.0.4,dc-1-n3,9042
-10.5.0.2,true,10.5.0.4,dc-1-n3,9160
-10.5.0.2,true,10.5.0.4,dc-1-n3,2181
+10.5.0.2,10.5.0.2,dc-1-n1,7199,true
+10.5.0.2,10.5.0.2,dc-1-n1,9042,true
+10.5.0.2,10.5.0.2,dc-1-n1,9160,true
+10.5.0.2,10.5.0.2,dc-1-n1,2181,true
+10.5.0.2,10.5.0.3,dc-1-n2,7199,true
+10.5.0.2,10.5.0.3,dc-1-n2,9042,true
+10.5.0.2,10.5.0.3,dc-1-n2,9160,true
+10.5.0.2,10.5.0.3,dc-1-n2,2181,true
+10.5.0.2,10.5.0.4,dc-1-n3,7199,true
+10.5.0.2,10.5.0.4,dc-1-n3,9042,true
+10.5.0.2,10.5.0.4,dc-1-n3,9160,true
+10.5.0.2,10.5.0.4,dc-1-n3,2181,true
+  
+# ROUTER
+dc-1-n1
+10.5.0.2,10.5.0.3,dc-1-n2,4527,true
+10.5.0.2,10.5.0.3,dc-1-n2,8081,true
+10.5.0.2,10.5.0.4,dc-1-n3,4527,true
+10.5.0.2,10.5.0.4,dc-1-n3,8081,true
+  
+# MESSAGE PROCESSOR
+dc-1-n1
+10.5.0.2,10.5.0.3,dc-1-n2,4528,true
+10.5.0.2,10.5.0.3,dc-1-n2,8082,true
+10.5.0.2,10.5.0.4,dc-1-n3,4528,true
+10.5.0.2,10.5.0.4,dc-1-n3,8082,true
+  
+# POSTGRES
+dc-1-n1
+10.5.0.2,10.5.0.5,dc-1-n4,4530,true
+10.5.0.2,10.5.0.5,dc-1-n4,8084,true
+10.5.0.2,10.5.0.5,dc-1-n4,5432,true
+10.5.0.2,10.5.0.6,dc-1-n5,4530,true
+10.5.0.2,10.5.0.6,dc-1-n5,8084,true
+10.5.0.2,10.5.0.6,dc-1-n5,5432,true
+  
+# QPIDD
+dc-1-n1
+10.5.0.2,10.5.0.5,dc-1-n4,4529,true
+10.5.0.2,10.5.0.5,dc-1-n4,8083,true
+10.5.0.2,10.5.0.6,dc-1-n5,4529,true
+10.5.0.2,10.5.0.6,dc-1-n5,8083,true
   

@@ -4,7 +4,7 @@
   include_vars:
     file: ms.yml
 
-- name: Management Server port connectivity status  
+- name: Management Server DS port connectivity status  
   shell: |
     PASS=`nmap {{ hostvars[item.0].ansible_host }} -p {{  item.1 }}|awk -F'/' '/filtered/ {print $1}'`;
     if [ ${PASS} -eq {{ item.1 }} ]; then 
@@ -12,14 +12,89 @@
     else
       RESULT="true"
     fi
-    echo "{{ ansible_host }},$RESULT,{{ hostvars[item.0].ansible_host }},{{ item.0 }},{{ item.1 }}" 
+    echo "{{ ansible_host }},{{ hostvars[item.0].ansible_host }},{{ item.0 }},{{ item.1 }},$RESULT" 
   register: ms_ds_port_status
   ignore_errors: yes
   with_nested:
     - "{{ groups['ds'] }}"
     - "{{ ms_groups['ds'] }}"
+
+- name: Management Server Router port connectivity status  
+  shell: |
+    PASS=`nmap {{ hostvars[item.0].ansible_host }} -p {{  item.1 }}|awk -F'/' '/filtered/ {print $1}'`;
+    if [ ${PASS} -eq {{ item.1 }} ]; then 
+      RESULT="false"
+    else
+      RESULT="true"
+    fi
+    echo "{{ ansible_host }},{{ hostvars[item.0].ansible_host }},{{ item.0 }},{{ item.1 }},$RESULT" 
+  register: ms_r_port_status
+  ignore_errors: yes
+  with_nested:
+    - "{{ groups['r'] }}"
+    - "{{ ms_groups['r'] }}"
  
-    
-- name: Set Fact Thrift port
+- name: Management Server MP port connectivity status  
+  shell: |
+    PASS=`nmap {{ hostvars[item.0].ansible_host }} -p {{  item.1 }}|awk -F'/' '/filtered/ {print $1}'`;
+    if [ ${PASS} -eq {{ item.1 }} ]; then 
+      RESULT="false"
+    else
+      RESULT="true"
+    fi
+    echo "{{ ansible_host }},{{ hostvars[item.0].ansible_host }},{{ item.0 }},{{ item.1 }},$RESULT" 
+  register: ms_mp_port_status
+  ignore_errors: yes
+  with_nested:
+    - "{{ groups['mp'] }}"
+    - "{{ ms_groups['mp'] }}"
+
+- name: Management Server PG port connectivity status  
+  shell: |
+    PASS=`nmap {{ hostvars[item.0].ansible_host }} -p {{  item.1 }}|awk -F'/' '/filtered/ {print $1}'`;
+    if [ ${PASS} -eq {{ item.1 }} ]; then 
+      RESULT="false"
+    else
+      RESULT="true"
+    fi
+    echo "{{ ansible_host }},{{ hostvars[item.0].ansible_host }},{{ item.0 }},{{ item.1 }},$RESULT" 
+  register: ms_pg_port_status
+  ignore_errors: yes
+  with_nested:
+    - "{{ groups['pg'] }}"
+    - "{{ ms_groups['pg'] }}"
+
+- name: Management Server QPIDD port connectivity status  
+  shell: |
+    PASS=`nmap {{ hostvars[item.0].ansible_host }} -p {{  item.1 }}|awk -F'/' '/filtered/ {print $1}'`;
+    if [ ${PASS} -eq {{ item.1 }} ]; then 
+      RESULT="false"
+    else
+      RESULT="true"
+    fi
+    echo "{{ ansible_host }},{{ hostvars[item.0].ansible_host }},{{ item.0 }},{{ item.1 }},$RESULT" 
+  register: ms_qpid_port_status
+  ignore_errors: yes
+  with_nested:
+    - "{{ groups['qpid'] }}"
+    - "{{ ms_groups['qpid'] }}"
+
+- name: Set Fact DS port
   set_fact:  
     ms_ds_port: '{{ ms_ds_port_status.results }}'
+
+- name: Set Fact R port
+  set_fact:  
+    ms_r_port: '{{ ms_r_port_status.results }}'
+
+- name: Set Fact MP port
+  set_fact:  
+    ms_mp_port: '{{ ms_mp_port_status.results }}'
+
+- name: Set Fact PG port
+  set_fact:  
+    ms_pg_port: '{{ ms_pg_port_status.results }}'
+
+- name: Set Fact QPIDD port
+  set_fact:  
+    ms_qpid_port: '{{ ms_qpid_port_status.results }}'

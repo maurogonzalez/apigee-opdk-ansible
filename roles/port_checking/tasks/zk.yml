@@ -8,7 +8,7 @@
     else
       RESULT="true"
     fi
-    echo "{{ ansible_host }},$RESULT,{{ hostvars[item.0].ansible_host }},{{ item.0 }},{{ zookeeper_ports[item.1] }},{{ item.1 }}" 
+    echo "{{ ansible_host }},{{ hostvars[item.0].ansible_host }},{{ item.0 }},{{ zookeeper_ports[item.1] }},$RESULT" 
   register: zookeeper_port_status
   ignore_errors: yes
   with_nested:
