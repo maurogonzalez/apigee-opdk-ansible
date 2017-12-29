@@ -18,3 +18,12 @@
 
 - include: r.yml
   when: inventory_hostname in groups['r']
+
+- include: qpid.yml
+  when: inventory_hostname in groups['qpid']
+
+- include: pg.yml
+  when: inventory_hostname in groups['pg']
+
+- include: ui.yml
+  when: inventory_hostname in groups['ui']

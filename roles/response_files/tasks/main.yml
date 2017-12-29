@@ -6,6 +6,6 @@
     region_index: "{{ item[-1] }}"
   template:
    src: response.cfg.j2
-   dest: "{{ playbook_dir }}/files/response_{{ item }}.cfg"
+   dest: "{{ playbook_dir }}/files/response_{{ planet }}_{{ item }}.cfg"
   with_items:
     - "{{ regions.split(',') }}"

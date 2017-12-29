@@ -6,7 +6,6 @@ CASSANDRA,,,,
 {{ item.stdout }}
 {% endfor %}  
 {% endfor %}
-
 ZOOKEEPER,,,,
 {% for host in groups['ds'] %}
 {{ host }},,,,
@@ -14,7 +13,6 @@ ZOOKEEPER,,,,
 {{ item.stdout }}
 {% endfor %}  
 {% endfor %}
-
 MANAGEMENT SERVER,,,,
 # DS,,,,
 {% for host in groups['ms'] %}
@@ -51,7 +49,6 @@ MANAGEMENT SERVER,,,,
 {{ item.stdout }}
 {% endfor %}  
 {% endfor %}
-
 MESSAGE PROCESSOR,,,,
 # DS,,,,
 {% for host in groups['mp'] %}
@@ -81,7 +78,6 @@ MESSAGE PROCESSOR,,,,
 {{ item.stdout }}
 {% endfor %}  
 {% endfor %}
-
 ROUTER,,,,
 # DS,,,,
 {% for host in groups['r'] %}
@@ -115,6 +111,61 @@ ROUTER,,,,
 {% for host in groups['r'] %}
 {{ host }},,,,
 {% for item in hostvars[host].r_qpid_port %}
+{{ item.stdout }}
+{% endfor %}  
+{% endfor %}
+
+QPIDD,,,,
+# DS,,,,
+{% for host in groups['qpid'] %}
+{{ host }},,,,
+{% for item in hostvars[host].qpid_ds_port %}
+{{ item.stdout }}
+{% endfor %}  
+{% endfor %}
+# MS,,,,
+{% for host in groups['qpid'] %}
+{{ host }},,,,
+{% for item in hostvars[host].qpid_ms_port %}
+{{ item.stdout }}
+{% endfor %}  
+{% endfor %}
+# PG,,,,
+{% for host in groups['qpid'] %}
+{{ host }},,,,
+{% for item in hostvars[host].qpid_pg_port %}
+{{ item.stdout }}
+{% endfor %}  
+{% endfor %}
+
+PG,,,,
+# DS,,,,
+{% for host in groups['pg'] %}
+{{ host }},,,,
+{% for item in hostvars[host].pg_ds_port %}
+{{ item.stdout }}
+{% endfor %}  
+{% endfor %}
+# MS,,,,
+{% for host in groups['pg'] %}
+{{ host }},,,,
+{% for item in hostvars[host].pg_ms_port %}
+{{ item.stdout }}
+{% endfor %}  
+{% endfor %}
+# PG,,,,
+{% for host in groups['pg'] %}
+{{ host }},,,,
+{% for item in hostvars[host].pg_pg_port %}
+{{ item.stdout }}
+{% endfor %}  
+{% endfor %}
+
+UI,,,,
+# MS,,,,
+{% for host in groups['ui'] %}
+{{ host }},,,,
+{% for item in hostvars[host].ui_ms_port %}
 {{ item.stdout }}
 {% endfor %}  
 {% endfor %}

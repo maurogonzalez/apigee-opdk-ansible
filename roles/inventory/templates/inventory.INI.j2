@@ -155,7 +155,14 @@ localhost ansible_connection=local
 {% endfor %}
 {% endfor %}
 
+[ui:children]
+# Listing of all the UI nodes across the planet
+{% for r in servers.regions %}
+{{ r.name }}-ui
+{% endfor %}
+
 [all:vars]
+planet={{ json_schema.planet }}
 regions={{ regions | map(attribute='name') | join(',') }}
 opdk_admin_email="{{ json_schema.customer.adminEmail }}"
 opdk_admin_password="{{ json_schema.customer.adminPassword }}"
