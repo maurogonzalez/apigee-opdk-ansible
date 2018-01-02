@@ -56,6 +56,7 @@ ssh_pwd: SSH_PASSWORD
 ssh_bastion_host: BASTION_HOST
 ssh_bastion_user: BASTION_USER
 ssh_bastion_key: PATH_BASTION_KEY
+pg_ram_in_mb: PG_NODE_RAM_IN_MB
 ```
 
 ## Create an ansible inventory file and topology diagram
@@ -98,6 +99,11 @@ Find the report files under `reports/port_connectivity_report_PLANET.csv`
 $ ansible-playbook -i inventory/INVENTORY_FILE prerequisites.yml
 ```
 
+## Update system limits for CS and ZK, and PG memory settings
+
+```
+$ ansible-playbook -i inventory/INVENTORY_FILE systemlimits.yml
+```
 ## Author
 
 If you have any questions regarding this project contact:  
