@@ -65,6 +65,14 @@
     owner: apigee
     group: apigee  
 
+- name: Copy license file
+  become: yes
+  copy:
+    src: "{{ license_path }}"
+    dest: "{{ opdk_license_target_file_path }}"
+    owner: apigee
+    group: apigee 
+
 - name: Download bootstrap
   become: yes
   get_url:

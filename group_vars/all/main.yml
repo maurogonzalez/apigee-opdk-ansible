@@ -1,7 +1,7 @@
 opdk_user_name: apigee
 opdk_group_name: apigee
 opdk_installer_path: /opt/apigee
-opdk_license_target_file_path: "{{ license_path | default('/tmp/apigee/license.txt') }}"
+opdk_license_target_file_path: "{{ license_target_path | default('/tmp/apigee/license.txt') }}"
 opdk_use_ldap_remote_host: "{{ use_ldap_remote_host | default('n') }}"
 opdk_enable_ax: "{{ enable_ax | default('y') }}"
 opdk_cass_username: "{{ cass_username | default('cassandra') }}"
