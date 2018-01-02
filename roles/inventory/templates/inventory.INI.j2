@@ -187,7 +187,7 @@ ansible_ssh_pass="{{ ansible_ssh_pass }}"
 {% endraw %}
 {% if json_schema.ssh.bastion.present %}
 {% raw %}
-ansible_ssh_common_args='-o ProxyCommand="ssh -W %h:%p -q {{ bastion_user }}@{{ bastion_host }}"'
+ansible_ssh_common_args='-o ProxyCommand="ssh -i {{ bastion_private_key_file }} -W %h:%p -q {{ bastion_user }}@{{ bastion_host }}"'
 {% endraw %}
 {% endif %}
 

@@ -2,17 +2,7 @@
 - hosts: planet
   roles:
      - port_checking
-  vars:
-    ssh_user: root
-    ssh_key: ~/.ssh/ssh-key
-    ssh_pwd: xxxxxxx
-    ssh_bastion_host: xx.xx.xx.xx
 
 - hosts: localhost
   roles:
      - report
-  vars:
-    ssh_user: root
-    ssh_key: ~/.ssh/ssh-key
-    ssh_pwd: xxxxxxx
-    ssh_bastion_host: xx.xx.xx.xx

@@ -42,55 +42,63 @@ $ sudo apt-get install nmap
 $ brew install nmap
 ``` 
 
-## Usage
+# Usage
 
-# Edge Topology Definition ([etp Edge Topology definition](https://github.com/yuriylesyuk/etp))
-A topology of an Edge installation is represented as a JSON document, defining collections of nodes, subnets, and layout of the particular planet.
+## Populate env.yml file
+Under project root there's an _env.yaml_, fill the required variables:
+```
+license_path: LICENSE_PATH
+apigee_user: APIGEE_SOFTWARE_USER
+apigee_pwd: APIGEE_SOFTWARE_PASSWORD
+ssh_user: SSH_USER
+ssh_key: PATH_TO_KEY
+ssh_pwd: SSH_PASSWORD
+ssh_bastion_host: BASTION_HOST
+ssh_bastion_user: BASTION_USER
+ssh_bastion_key: PATH_BASTION_KEY
+```
 
-An example for a 1 region with 5 nodes topology is given in _examples/topology-1dc-5n.json_
-
-# Create an ansible inventory file and topology diagram
+## Create an ansible inventory file and topology diagram
 
 First create an [etp edge topology definition json file](https://github.com/yuriylesyuk/etp) (example _examples/topology-1dc-5n.json_)
 ```
-$ ansible-playbook -e "topology_src=topology.json" inventory.yml
+$ ansible-playbook -e "topology_src=PATH_TO_TOPOLOGY_FILE" inventory.yml
 ```
 Optionally you can create the topology diagram in the same run setting the diagram variable to any value
 ```
-$ ansible-playbook -e "topology_src=examples/topology-1dc-5n.json diagram=1" inventory.yml
+$ ansible-playbook -e "topology_src=PATH_TO_TOPOLOGY_FILE diagram=1" inventory.yml
 ```
-- Create only the diagram:
+Create only the diagram:
 ```
-$ ansible-playbook -e "topology_src=examples/topology-1dc-5n.json" diagram.yml
+$ ansible-playbook -e "topology_src=PATH_TO_TOPOLOGY_FILE" diagram.yml
 ```
-- Find the files under:
-  - _inventory/inventory\_{planet}.INI_
-  - _reports/topology-1dc-5n.svg_
+Find the files under:
+  - _inventory/inventory\_PLANET.INI_
+  - _reports/topology-PLANET.svg_
 
-# Create response files from inventory 
+## Create response files from inventory 
 
-- Create an ansible inventory file based on [apigee-opdk-inventory-file](https://github.com/carlosfrias/apigee-opdk-playbook-setup-ansible/blob/master/README-INVENTORY-FILE.md)
+Create an ansible inventory file based on [apigee-opdk-inventory-file](https://github.com/carlosfrias/apigee-opdk-playbook-setup-ansible/blob/master/README-INVENTORY-FILE.md)
 ```
-$ ansible-playbook -e -i inventory/{inventory_file} response_files.yml
+$ ansible-playbook -e -i inventory/INVENTORY_FILE response_files.yml
 ```
-- Find the response files under `files/response_{planet}_{region}.cfg`
+Find the response files under `files/response_PLANET_REGION.cfg`
 
-# Create port checking report
+## Create port checking report
 
-- Create port report for a whole planet using an inventory
+Create port report for a whole planet using an inventory
 ```
-$ ansible-playbook -i inventory/{inventory_file} port_report.yml
+$ ansible-playbook -i inventory/INVENTORY_FILE port_report.yml
 ```
-- Find the report files under `reports/port_connectivity_report_{planet}.csv`
+Find the report files under `reports/port_connectivity_report_PLANET.csv`
 
-# Install all prereqs and the apigee-setup utility accross the planet
+## Install all prereqs and the apigee-setup utility accross the planet
 
 ```
-$ ansible-playbook -i inventory/{inventory_file} -e "apigee_user={ apigee.software.user } \
-  apigee_pwd={ apigee.software.pwd }"  prerequisites.yml
+$ ansible-playbook -i inventory/INVENTORY_FILE prerequisites.yml
 ```
 
-# Author
+## Author
 
 If you have any questions regarding this project contact:  
 Mauro González <jmajma8@gmail.com>

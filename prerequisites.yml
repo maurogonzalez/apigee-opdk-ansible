@@ -1,10 +1,4 @@
 ---
 - hosts: planet
   roles:
-     - prereq
-  vars:
-    ssh_user: root
-    ssh_key: ~/.ssh/ssh-key
-    ssh_pwd: xxxxxx
-    ssh_bastion_host: xx.xx.xx.xx
-
+    - prereq
