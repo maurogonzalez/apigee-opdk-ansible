@@ -61,11 +61,13 @@ pg_ram_in_mb: PG_NODE_RAM_IN_MB
 
 ## Create an ansible inventory file and topology diagram
 
-First create an [etp edge topology definition json file](https://github.com/yuriylesyuk/etp) (example _examples/topology-1dc-5n.json_)
+First create an [etp edge topology definition json file](https://github.com/yuriylesyuk/etp) (example _examples/topology-1dc-5n.json_).
+
+Create inventory file:
 ```
 $ ansible-playbook -e "topology_src=PATH_TO_TOPOLOGY_FILE" inventory.yml
 ```
-Optionally you can create the topology diagram in the same run setting the diagram variable to any value
+Optionally, you can create the topology diagram in the same run setting the diagram variable to any value:
 ```
 $ ansible-playbook -e "topology_src=PATH_TO_TOPOLOGY_FILE diagram=1" inventory.yml
 ```
@@ -79,7 +81,7 @@ Find the files under:
 
 ## Create response files from inventory 
 
-Create an ansible inventory file based on [apigee-opdk-inventory-file](https://github.com/carlosfrias/apigee-opdk-playbook-setup-ansible/blob/master/README-INVENTORY-FILE.md)
+Create an ansible inventory file based on [apigee-opdk-inventory-file](https://github.com/carlosfrias/apigee-opdk-playbook-setup-ansible/blob/master/README-INVENTORY-FILE.md):
 ```
 $ ansible-playbook -e -i inventory/INVENTORY_FILE response_files.yml
 ```
@@ -94,16 +96,12 @@ $ ansible-playbook -i inventory/INVENTORY_FILE port_report.yml
 Find the report files under `reports/port_connectivity_report_PLANET.csv`
 
 ## Install all prereqs and the apigee-setup utility accross the planet
+Install the apigee-setup utility and create the CS and MP systemlimits files and PG memory settings file:
 
 ```
 $ ansible-playbook -i inventory/INVENTORY_FILE prerequisites.yml
 ```
 
-## Update system limits for CS and ZK, and PG memory settings
-
-```
-$ ansible-playbook -i inventory/INVENTORY_FILE systemlimits.yml
-```
 ## Author
 
 If you have any questions regarding this project contact:  

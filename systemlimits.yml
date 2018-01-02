@@ -1,4 +1,0 @@
----
-- hosts: ds:mp:pg
-  roles:
-    - systemlimits

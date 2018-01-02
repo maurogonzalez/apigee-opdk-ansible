@@ -1,4 +1,8 @@
 ---
+- name: Build CS/MP list
+  set_fact:
+    cs_mp_list: "{{ groups['ds'] | union(groups['mp']) }}"
+
 - name: System limits for CS and MP
   become: yes
   template:
@@ -7,7 +11,7 @@
     owner: root
     group: root
     mode: 0644
-  when: inventory_hostname not in groups['pg']
+  when: inventory_hostname in cs_mp_list
 
 - name: Postgresql mem settings
   become: yes
