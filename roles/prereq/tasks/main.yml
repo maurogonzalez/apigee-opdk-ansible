@@ -47,7 +47,6 @@
     group: 'apigee'
     owner: 'apigee'
     recurse: yes
-    mode: 0755
 
 - name: Create Apigee's tmp folder  
   become: yes
@@ -57,17 +56,14 @@
     group: 'apigee'
     owner: 'apigee'
     recurse: yes
-    mode: 0755
 
-- name: Copy response files and license
+- name: Copy response file
   become: yes
   copy:
-    src: "{{ playbook_dir }}/files/response_{{ planet }}_{{ item }}.cfg"
+    src: "{{ playbook_dir }}/files/response_{{ planet }}_{{ hostvars[inventory_hostname]['region'] }}.cfg"
     dest: /tmp/apigee/
     owner: apigee
-    group: apigee
-  with_items:
-    - "{{ regions.split(',') }}"
+    group: apigee  
 
 - name: Download bootstrap
   become: yes
@@ -76,6 +72,7 @@
     dest: /tmp/apigee/bootstrap_4.17.09.sh
     owner: apigee
     group: apigee
+    mode: 0755
 
 - name: Bootstrap Apigee
   become: yes
