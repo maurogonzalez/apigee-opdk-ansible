@@ -3,4 +3,3 @@
   template:
     src: ../templates/port_connectivity_report.csv.j2
     dest: "{{ playbook_dir }}/reports/port_connectivity_report_{{ planet }}.csv"
-  when: ansible_host == 'localhost'

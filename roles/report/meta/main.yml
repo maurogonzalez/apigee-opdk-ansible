@@ -1,3 +1,0 @@
----
-dependencies:
-  - { role: port_checking, when: ansible_host != 'localhost' }
