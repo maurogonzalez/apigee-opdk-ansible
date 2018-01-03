@@ -32,7 +32,7 @@
   register: ms_r_port_status
   ignore_errors: yes
   with_nested:
-    - "{{ groups[node_region ~ '-r'] }}"
+    - "{{ groups[node_region ~ '-r'] +  groups[node_region ~ '-rmp'] }}"
     - "{{ ms_groups['r'] }}"
  
 - name: MS -> MP port connectivity status  
