@@ -47,7 +47,7 @@
   register: ms_mp_port_status
   ignore_errors: yes
   with_nested:
-    - "{{ groups['mp'] }}"
+    - "{{ mp_nodes }}"
     - "{{ ms_groups['mp'] }}"
 
 - name: MS -> PG port connectivity status  

@@ -1,0 +1,32 @@
+---
+profile_map:
+  c: 
+    - ds
+  zk: 
+    - ds
+  ds: 
+    - ds
+  ld: 
+    - ldap
+  ms: 
+    - ms
+  r: 
+    - r
+  mp: 
+    - mp
+  rmp: 
+    - rmp
+  ui: 
+    - ui
+  qs: 
+    - qs
+  pdb: 
+    - pg
+  sax:
+    - qs
+    - pg
+  sso:
+  mo:
+  sa:
+  aio:
+  dp:

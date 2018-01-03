@@ -45,7 +45,7 @@ $ brew install nmap
 # Usage
 
 ## Populate env.yml file
-Under project root there's an _env.yaml_, fill the required variables:
+Under project root there's an _env.yml_, fill the required variables:
 ```
 license_path: LICENSE_PATH
 apigee_user: APIGEE_SOFTWARE_USER
@@ -100,6 +100,13 @@ Install the apigee-setup utility and create the CS and MP systemlimits files and
 
 ```
 $ ansible-playbook -i inventory/INVENTORY_FILE prerequisites.yml
+```
+
+## Install Apigee Edge in planet
+Install apigee edge components in the planet:
+
+```
+$ ansible-playbook -i inventory/INVENTORY_FILE setup.yml
 ```
 
 ## Author

@@ -3,6 +3,8 @@
 - name: Set region flag
   set_fact:
     node_region: "{{ hostvars[inventory_hostname]['region'] }}"
+    r_nodes: "{{ groups['rmp'] | union(groups['r']) }}"
+    mp_nodes: "{{ groups['rmp'] | union(groups['mp']) }}"
 
 - include: zk.yml
   when: inventory_hostname in groups['ds']
@@ -14,10 +16,10 @@
   when: inventory_hostname in groups['ms']
 
 - include: mp.yml
-  when: inventory_hostname in groups['mp']
+  when: inventory_hostname in mp_nodes
 
 - include: r.yml
-  when: inventory_hostname in groups['r']
+  when: inventory_hostname in r_nodes
 
 - include: qpid.yml
   when: inventory_hostname in groups['qpid']

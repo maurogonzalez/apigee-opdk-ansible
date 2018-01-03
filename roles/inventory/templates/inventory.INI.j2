@@ -42,7 +42,19 @@ localhost ansible_connection=local
 
 [{{ r.name }}-ds]
 # Listing of all the Cassandra and Zookeeper nodes in {{ r.name }}
-{% for n in iteratee if "CS" in n.components or "ZK" in n.components %}
+{% for n in iteratee if "CS" in n.components and "ZK" in n.components %}
+{{ n.name }}
+{% endfor %}
+
+[{{ r.name }}-c]
+# Listing of all the Cassandra and Zookeeper nodes in {{ r.name }}
+{% for n in iteratee if "CS" in n.components and "ZK" not in n.components %}
+{{ n.name }}
+{% endfor %}
+
+[{{ r.name }}-zk]
+# Listing of all the Cassandra and Zookeeper nodes in {{ r.name }}
+{% for n in iteratee if "CS" not in n.components and "ZK" in n.components %}
 {{ n.name }}
 {% endfor %}
 
@@ -73,7 +85,7 @@ localhost ansible_connection=local
 
 [{{ r.name }}-mp]
 # Listing of all the isaolated Message Processor nodes in {{ r.name }}
-{% for n in iteratee if "MP" in n.components and "R" not in n.components %}
+{% for n in iteratee if "R" not in n.components and "R" in n.components %}
 {{ n.name }}
 {% endfor %}
 
@@ -115,6 +127,18 @@ localhost ansible_connection=local
 {{ r.name }}-ds
 {% endfor %}
 
+[c:children]
+# Listing of all the isolated Cassandra nodes across the planet
+{% for r in servers.regions %}
+{{ r.name }}-c
+{% endfor %}
+
+[zk:children]
+# Listing of all the isolated Zookeeper nodes across the planet
+{% for r in servers.regions %}
+{{ r.name }}-zk
+{% endfor %}
+
 [ms:children]
 # Listing of all the Management Server nodes across the planet
 {% for r in servers.regions %}
@@ -124,15 +148,19 @@ localhost ansible_connection=local
 [r:children]
 # Listing of all the Router nodes across the planet
 {% for r in servers.regions %}
-{{ r.name }}-rmp
 {{ r.name }}-r
 {% endfor %}
 
 [mp:children]
 # Listing of all the Message Processor nodes across the planet
 {% for r in servers.regions %}
-{{ r.name }}-rmp
 {{ r.name }}-mp
+{% endfor %}
+
+[rmp:children]
+# Listing of all the Message Processor nodes across the planet
+{% for r in servers.regions %}
+{{ r.name }}-rmp
 {% endfor %}
 
 [qpid:children]

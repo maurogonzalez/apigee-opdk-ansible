@@ -51,28 +51,28 @@ MANAGEMENT SERVER,,,,
 {% endfor %}
 MESSAGE PROCESSOR,,,,
 # DS,,,,
-{% for host in groups['mp'] %}
+{% for host in mp_nodes %}
 {{ host }},,,,
 {% for item in hostvars[host].mp_ds_port %}
 {{ item.stdout }}
 {% endfor %}  
 {% endfor %}
 # MS,,,,
-{% for host in groups['mp'] %}
+{% for host in mp_nodes %}
 {{ host }},,,,
 {% for item in hostvars[host].mp_ms_port %}
 {{ item.stdout }}
 {% endfor %}  
 {% endfor %}
 # MP,,,,
-{% for host in groups['mp'] %}
+{% for host in mp_nodes %}
 {{ host }},,,,
 {% for item in hostvars[host].mp_mp_port %}
 {{ item.stdout }}
 {% endfor %}  
 {% endfor %}
 # QPIDD,,,,
-{% for host in groups['mp'] %}
+{% for host in mp_nodes %}
 {{ host }},,,,
 {% for item in hostvars[host].mp_qpid_port %}
 {{ item.stdout }}
@@ -80,35 +80,35 @@ MESSAGE PROCESSOR,,,,
 {% endfor %}
 ROUTER,,,,
 # DS,,,,
-{% for host in groups['r'] %}
+{% for host in r_nodes %}
 {{ host }},,,,
 {% for item in hostvars[host].r_ds_port %}
 {{ item.stdout }}
 {% endfor %}  
 {% endfor %}
 # MS,,,,
-{% for host in groups['r'] %}
+{% for host in r_nodes %}
 {{ host }},,,,
 {% for item in hostvars[host].r_ms_port %}
 {{ item.stdout }}
 {% endfor %}  
 {% endfor %}
 # R,,,,
-{% for host in groups['r'] %}
+{% for host in r_nodes %}
 {{ host }},,,,
 {% for item in hostvars[host].r_r_port %}
 {{ item.stdout }}
 {% endfor %}  
 {% endfor %}
 # MP,,,,
-{% for host in groups['r'] %}
+{% for host in r_nodes %}
 {{ host }},,,,
 {% for item in hostvars[host].r_mp_port %}
 {{ item.stdout }}
 {% endfor %}  
 {% endfor %}
 # QPIDD,,,,
-{% for host in groups['r'] %}
+{% for host in r_nodes %}
 {{ host }},,,,
 {% for item in hostvars[host].r_qpid_port %}
 {{ item.stdout }}

@@ -1,0 +1,78 @@
+--- 
+# Install Zookeeper 
+- hosts: zk
+  roles:
+    - setup
+  vars: 
+    profile: z
+
+# Install Cassandra
+- hosts: c
+  roles:
+    - setup
+  vars: 
+    profile: c
+
+# Install Zookeeper and Cassandra if same node
+- hosts: ds
+  serial: 1
+  roles:
+    - setup
+  vars: 
+    profile: ds
+
+# Install OpenLDAP
+- hosts: ldap
+  serial: 1
+  roles:
+    - setup
+  vars: 
+    profile: ld
+
+# Install Management Server
+- hosts: ms
+  serial: 1
+  roles:
+    - setup
+  vars: 
+    profile: ms
+
+# Install Router
+- hosts: r
+  serial: 1
+  roles:
+    - setup
+  vars: 
+    profile: r
+
+# Install Message Processor
+- hosts: mp
+  serial: 1
+  roles:
+    - setup
+  vars: 
+    profile: mp
+
+# Install Router and Message Processor if same node
+- hosts: rmp
+  serial: 1
+  roles:
+    - setup
+  vars: 
+    profile: rmp
+
+# Install QPIDD and Qpid Server
+- hosts: qpid
+  serial: 1
+  roles:
+    - setup
+  vars: 
+    profile: qs
+
+# Install Postgresql and Postgres Server
+- hosts: pg
+  serial: 1
+  roles:
+    - setup
+  vars: 
+    profile: ps

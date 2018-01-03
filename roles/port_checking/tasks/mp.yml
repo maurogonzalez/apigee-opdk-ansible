@@ -48,7 +48,7 @@
   register: mp_mp_port_status
   ignore_errors: yes
   with_nested:
-    - "{{ groups['mp'] }}"
+    - "{{ mp_nodes }}"
     - "{{ mp_groups['mp'] }}"
 
 # REGIONAL
