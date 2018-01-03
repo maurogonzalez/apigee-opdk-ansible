@@ -58,15 +58,21 @@ localhost ansible_connection=local
 {{ n.name }}
 {% endfor %}
 
+[{{ r.name }}-msldap]
+# Listing of all the Management Server nodes in {{ r.name }}
+{% for n in iteratee if "MS" in n.components and "OL" in n.components %}
+{{ n.name }}
+{% endfor %}
+
 [{{ r.name }}-ms]
 # Listing of all the Management Server nodes in {{ r.name }}
-{% for n in iteratee if "MS" in n.components %}
+{% for n in iteratee if "MS" in n.components and "OL" not in n.components %}
 {{ n.name }}
 {% endfor %}
 
 [{{ r.name }}-ldap]
 # Listing of all the OpenLDAP nodes in {{ r.name }}
-{% for n in iteratee if "OL" in n.components %}
+{% for n in iteratee if "MS" not in n.components and "OL" in n.components %}
 {{ n.name }}
 {% set x=ldap_count.append(ldap_count.pop() + 1) %}
 {% endfor %}
@@ -139,8 +145,20 @@ localhost ansible_connection=local
 {{ r.name }}-zk
 {% endfor %}
 
-[ms:children]
+[msldap:children]
 # Listing of all the Management Server nodes across the planet
+{% for r in servers.regions %}
+{{ r.name }}-msldap
+{% endfor %}
+
+[ldap:children]
+# Listing of all the isolated Management Server nodes across the planet
+{% for r in servers.regions %}
+{{ r.name }}-ldap
+{% endfor %}
+
+[ms:children]
+# Listing of all the isolated Management Server nodes across the planet
 {% for r in servers.regions %}
 {{ r.name }}-ms
 {% endfor %}

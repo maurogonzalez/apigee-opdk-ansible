@@ -37,6 +37,14 @@
   vars: 
     profile: ms
 
+# Install Management Server and OpenLDAP
+- hosts: msldap
+  serial: 1
+  roles:
+    - setup
+  vars: 
+    profile: ms
+
 # Install Router
 - hosts: r
   serial: 1
