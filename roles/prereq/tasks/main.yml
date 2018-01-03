@@ -73,6 +73,17 @@
     owner: apigee
     group: apigee 
 
+- name: Download EPEL rpm
+  become: yes
+  get_url:
+    url: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+    dest: /tmp/apigee/epel-release-latest-7.noarch.rpm
+
+- name: Install EPEL repo
+  become: yes
+  command: rpm -ivh /tmp/apigee/epel-release-latest-7.noarch.rpm
+  ignore_errors: yes
+  
 - name: Download bootstrap
   become: yes
   get_url:
