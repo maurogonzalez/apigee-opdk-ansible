@@ -81,9 +81,16 @@
 
 - name: Install EPEL repo
   become: yes
-  command: rpm -ivh /tmp/apigee/epel-release-latest-7.noarch.rpm
-  ignore_errors: yes
-  
+  yum: 
+    name: /tmp/apigee/epel-release-latest-7.noarch.rpm
+    state: present
+
+- name: Update certificates
+  yum:
+    name: ca-certificates
+    state: latest
+    disablerepo: epel
+
 - name: Download bootstrap
   become: yes
   get_url:
