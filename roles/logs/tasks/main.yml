@@ -1,0 +1,17 @@
+---
+- name: Archive node logs
+  archive:
+    path: /opt/apigee/var/log
+    dest: /tmp/apigee/log.tar.gz
+    format: gz
+
+- name: Fetch logs
+  fetch:
+    flat: yes
+    src: /tmp/apigee/log.tar.gz
+    dest: reports/{{ inventory_hostname }}/
+
+- name: Remove tar
+  file:
+    state: absent
+    path: /tmp/apigee/log.tar.gz
