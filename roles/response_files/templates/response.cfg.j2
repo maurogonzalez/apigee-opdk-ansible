@@ -8,8 +8,14 @@
 {{ hostvars[host]['env_ref'] }}="{{ hostvars[host]['ansible_host'] }}"
 {% endfor %}
 
+{%if groups[region ~ "-msldap"].0 is defined %}
+{% set mschild = "-msldap" %}
+{% else %}
+{% set mschild = "-ms" %}
+{% endif %}
+
 HOSTIP="$(hostname -i)"
-MSIP="${{ hostvars[groups[region ~ "-ms"].0].env_ref }}"
+MSIP="${{ hostvars[groups[region ~ mschild].0].env_ref }}"
 ADMIN_EMAIL="{{ opdk_admin_email }}"
 APIGEE_ADMINPW="{{ opdk_admin_password }}"
 LICENSE_FILE="{{ opdk_license_target_file_path }}"
