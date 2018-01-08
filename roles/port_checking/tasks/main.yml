@@ -6,26 +6,26 @@
     r_nodes: "{{ groups['rmp'] | union(groups['r']) }}"
     mp_nodes: "{{ groups['rmp'] | union(groups['mp']) }}"
 
-- include: zk.yml
+- include_tasks: zk.yml
   when: inventory_hostname in groups['ds']
 
-- include: cs.yml
+- include_tasks: cs.yml
   when: inventory_hostname in groups['ds']
 
-- include: ms.yml
+- include_tasks: ms.yml
   when: inventory_hostname in groups['ms']
 
-- include: mp.yml
+- include_tasks: mp.yml
   when: inventory_hostname in mp_nodes
 
-- include: r.yml
+- include_tasks: r.yml
   when: inventory_hostname in r_nodes
 
-- include: qpid.yml
+- include_tasks: qpid.yml
   when: inventory_hostname in groups['qpid']
 
-- include: pg.yml
+- include_tasks: pg.yml
   when: inventory_hostname in groups['pg']
 
-- include: ui.yml
+- include_tasks: ui.yml
   when: inventory_hostname in groups['ui']
