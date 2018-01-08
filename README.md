@@ -109,6 +109,13 @@ Install apigee edge components in the planet:
 $ ansible-playbook -i inventory/INVENTORY_FILE setup.yml
 ```
 
+## Fetch Planet logs
+Install apigee edge components in the planet:
+
+```
+$ ansible-playbook -i inventory/INVENTORY_FILE logs.yml
+```
+
 ## Author
 
 If you have any questions regarding this project contact:  
