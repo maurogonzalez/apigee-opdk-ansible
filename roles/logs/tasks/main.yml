@@ -1,17 +1,23 @@
 ---
+- name: Set tar file name
+  set_fact:
+    tar_name: log_{{ inventory_hostname }}.tar.gz
+
 - name: Archive node logs
   archive:
     path: /opt/apigee/var/log
-    dest: /tmp/apigee/log.tar.gz
+    dest: /tmp/log.tar.gz
     format: gz
+  become: yes
 
 - name: Fetch logs
   fetch:
     flat: yes
-    src: /tmp/apigee/log.tar.gz
-    dest: reports/{{ inventory_hostname }}/
+    src: /tmp/log.tar.gz
+    dest: reports/{{ planet }}/{{ inventory_hostname }}/{{ tar_name }}
 
 - name: Remove tar
   file:
     state: absent
-    path: /tmp/apigee/log.tar.gz
+    path: /tmp/log.tar.gz
+  become: yes
