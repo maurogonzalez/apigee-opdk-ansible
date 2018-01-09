@@ -17,7 +17,7 @@
   register: ui_ms_port_status
   ignore_errors: yes
   with_nested:
-    - "{{ groups[node_region ~ '-ms'] }}"
+    - "{{ groups[node_region ~ '-msldap'] + groups[node_region ~ '-ms']}}"
     - "{{ ui_groups['ms'] }}"
 
 - name: Set Fact MS port

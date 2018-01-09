@@ -33,7 +33,7 @@
   register: pg_ms_port_status
   ignore_errors: yes
   with_nested:
-    - "{{ groups[node_region ~ '-ms'] }}"
+    - "{{ groups[node_region ~ '-ms'] + groups[node_region ~ '-msldap'] }}"
     - "{{ pg_groups['ms'] }}"
 
 - name: PG -> PG port connectivity status  

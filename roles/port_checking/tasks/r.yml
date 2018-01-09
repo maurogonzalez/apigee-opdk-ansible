@@ -33,7 +33,7 @@
   register: r_ms_port_status
   ignore_errors: yes
   with_nested:
-    - "{{ groups[node_region ~ '-ms'] }}"
+    - "{{ groups[node_region ~ '-ms']+ groups[node_region ~ '-msldap'] }}"
     - "{{ r_groups['ms'] }}"
 
 # REGIONAL
