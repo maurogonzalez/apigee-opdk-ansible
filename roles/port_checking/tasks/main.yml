@@ -5,6 +5,7 @@
     node_region: "{{ hostvars[inventory_hostname]['region'] }}"
     r_nodes: "{{ groups['rmp'] | union(groups['r']) }}"
     mp_nodes: "{{ groups['rmp'] | union(groups['mp']) }}"
+    ms_nodes: "{{ groups['ms'] | union(groups['msldap']) }}"
 
 - include_tasks: zk.yml
   when: inventory_hostname in groups['ds']
@@ -13,7 +14,7 @@
   when: inventory_hostname in groups['ds']
 
 - include_tasks: ms.yml
-  when: inventory_hostname in groups['ms']
+  when: inventory_hostname in ms_nodes
 
 - include_tasks: mp.yml
   when: inventory_hostname in mp_nodes
