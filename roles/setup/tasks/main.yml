@@ -2,3 +2,5 @@
 - name: Setup {{ profile }}
   become: yes
   command: bash /opt/apigee/apigee-setup/bin/setup.sh -p {{ profile }} -f /tmp/apigee/response_{{ planet }}_{{ hostvars[inventory_hostname]['region'] }}.cfg
+  async: 3600
+  poll: 5
