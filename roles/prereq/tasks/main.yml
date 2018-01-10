@@ -65,6 +65,15 @@
     owner: apigee
     group: apigee  
 
+- name: Copy response provision file
+  become: yes
+  copy:
+    src: "{{ playbook_dir }}/files/response_{{ planet }}_{{ hostvars[inventory_hostname]['region'] }}_provision.cfg"
+    dest: /tmp/apigee/
+    owner: apigee
+    group: apigee
+  when: inventory_hostname in groups['ms'] or inventory_hostname in groups['msldap']
+
 - name: Copy license file
   become: yes
   copy:
@@ -107,3 +116,9 @@
 - name: Install apigee-setup utility
   become: yes
   command: bash /opt/apigee/apigee-service/bin/apigee-service apigee-setup install
+
+
+- name: Install apigee provision
+  become: yes
+  command: /opt/apigee/apigee-service/bin/apigee-service apigee-provision install
+  when: inventory_hostname in groups['ms'] or inventory_hostname in groups['msldap']
