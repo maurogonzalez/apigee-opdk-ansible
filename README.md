@@ -140,8 +140,8 @@ Install apigee edge components in the planet:
 ```
 $ ansible-playbook -i inventory/INVENTORY_FILE \
   -e "keyalias=KEY_ALIAS keystore=KEYSTORE_NAME \
-  vhost_name=VHOST_NAME vhost_alias=VHOST_ALIAS \
-  org=EDGE_ORG env=EDGE_ENV " \
+  vhost_name=VHOST_NAME vhost_aliases=COMMA_SEPARATED_ALIASES \
+  org=EDGE_ORG env=EDGE_ENV tls_enabled=true" \
   vhost_tls.yml
 ```
 
