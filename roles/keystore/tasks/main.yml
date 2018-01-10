@@ -1,0 +1,58 @@
+---
+- name: Create TLS directory
+  file:
+    path: files/tls/META-INF
+    state: directory
+    mode: 0755
+
+- name: Copy Key and Cert to temporal directory
+  copy:
+    src: "{{ item }}"
+    dest: files/tls
+  with_items:
+    - "{{ ks_cert }}"
+    - "{{ ks_key }}"
+
+- name: Create jar
+  command: jar -cf {{ keystore }}.jar {{ ks_cert.split('/')[-1] }} {{ ks_key.split('/')[-1] }}
+  args:
+    chdir: files/tls
+
+- name: Create descriptor.properties
+  template:
+    src: descriptor.properties.j2
+    dest: files/tls/META-INF/descriptor.properties
+
+- name: Create jar
+  command: jar -uf {{ keystore }}.jar META-INF/descriptor.properties
+  args:
+    chdir: files/tls
+
+- name: Copy keystore jar to MS
+  become: yes
+  delegate_to: "{{item}}"
+  copy:
+    src: files/tls/{{ keystore }}.jar
+    dest: /tmp/apigee/{{ keystore }}.jar
+  with_items: "{{ groups['ms'] + groups['msldap'] }}"
+
+- name: Create keystore
+  delegate_to: "{{item}}"
+  uri:
+    url: http://localhost:8080/v1/o/{{ ks_org }}/environments/{{ ks_env }}/keystores
+    method: POST
+    body: "<KeyStore name='{{ keystore }}'/>"
+    force_basic_auth: yes
+    user: "{{ opdk_admin_email }}"
+    password: "{{ opdk_admin_password }}"
+    headers:
+      Content-Type: "text/xml"
+    status_code: 201,409
+  with_items: "{{ groups['ms'] + groups['msldap'] }}"
+  
+- name: Upload keystore
+  delegate_to: "{{ item }}"
+  command: "curl -u {{ opdk_admin_email }}:{{ opdk_admin_password }} -X POST \
+    -H 'Content-Type: multipart/form-data' -F file='@/tmp/apigee/{{ keystore }}.jar'
+    http://localhost:8080/v1/o/{{ ks_org }}/environments/{{ ks_env }}/keystores/{{ keystore }}/keys?alias={{ keyalias }}"
+  with_items: "{{ groups['ms'] + groups['msldap'] }}"

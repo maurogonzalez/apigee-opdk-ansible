@@ -57,6 +57,14 @@ ssh_bastion_host: BASTION_HOST
 ssh_bastion_user: BASTION_USER
 ssh_bastion_key: PATH_BASTION_KEY
 pg_ram_in_mb: PG_NODE_RAM_IN_MB
+edge_version: 4.17.09
+onboard_org_name: ORG_NAME
+onboard_admin_username: ORG_ADMIN_USER
+onboard_admin_name: ORG_ADMIN_NAME
+onboard_admin_lastname: ORG_ADMIN_LASTNAME
+onboard_admin_pwd: ORG_ADMIN_PASSWORD
+onboard_env: ONBOARD_ENV
+onboard_vhost_alias: ONBOARD_HOST_ALIAS
 ```
 
 ## Create an ansible inventory file and topology diagram
@@ -107,6 +115,23 @@ Install apigee edge components in the planet:
 
 ```
 $ ansible-playbook -i inventory/INVENTORY_FILE setup.yml
+```
+## Edge onboarding
+Install apigee edge components in the planet:
+
+```
+$ ansible-playbook -i inventory/INVENTORY_FILE onboard.yml
+```
+
+## Create Keystore and upload keystore jar
+Install apigee edge components in the planet:
+
+```
+$ ansible-playbook -i inventory/INVENTORY_FILE \
+  -e "keyalias=KEY_ALIAS keystore=KEYSTORE_NAME \
+  ks_cert=PATH_TO_CERT ks_key=PATH_TO_KEY \
+  ks_org=EDGE_ORG ks_env=EDGE_ENV" \
+  keystore.yml
 ```
 
 ## Fetch Planet logs
