@@ -1,0 +1,14 @@
+{ 
+  "name": "{{ vhost_name }}", 
+  "hostAliases": [    
+    "{{ vhost_alias }}"
+    ], 
+  "port": "9443", 
+  "interfaces" : [ ], 
+  "sSLInfo": { 
+    "enabled": "true", 
+    "clientAuthEnabled": "false", 
+    "keyStore": "{{ keystore }}", 
+    "keyAlias": "{{ keyalias }}" 
+  }
+}

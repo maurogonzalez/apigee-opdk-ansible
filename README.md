@@ -134,6 +134,17 @@ $ ansible-playbook -i inventory/INVENTORY_FILE \
   keystore.yml
 ```
 
+## Create a VirtualHost with TLS enabled
+Install apigee edge components in the planet:
+
+```
+$ ansible-playbook -i inventory/INVENTORY_FILE \
+  -e "keyalias=KEY_ALIAS keystore=KEYSTORE_NAME \
+  vhost_name=VHOST_NAME vhost_alias=VHOST_ALIAS \
+  org=EDGE_ORG env=EDGE_ENV " \
+  vhost_tls.yml
+```
+
 ## Fetch Planet logs
 Install apigee edge components in the planet:
 
