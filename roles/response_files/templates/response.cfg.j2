@@ -7,7 +7,6 @@
 {% for host in groups["planet"] %}
 {{ hostvars[host]['env_ref'] }}="{{ hostvars[host]['ansible_host'] }}"
 {% endfor %}
-
 {%if groups[region ~ "-msldap"].0 is defined %}
 {% set mschild = "-msldap" %}
 {% else %}

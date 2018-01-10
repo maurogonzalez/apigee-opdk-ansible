@@ -94,15 +94,15 @@
 - name: Download bootstrap
   become: yes
   get_url:
-    url: https://software.apigee.com/bootstrap_4.17.09.sh
-    dest: /tmp/apigee/bootstrap_4.17.09.sh
+    url: https://software.apigee.com/bootstrap_{{ edge_version }}.sh
+    dest: /tmp/apigee/bootstrap_{{ edge_version }}.sh
     owner: apigee
     group: apigee
     mode: 0755
 
 - name: Bootstrap Apigee
   become: yes
-  command: bash /tmp/apigee/bootstrap_4.17.09.sh apigeeuser={{ apigee_user }} apigeepassword={{ apigee_pwd }}
+  command: bash /tmp/apigee/bootstrap_{{ edge_version }}.sh apigeeuser={{ apigee_user }} apigeepassword={{ apigee_pwd }}
   
 - name: Install apigee-setup utility
   become: yes

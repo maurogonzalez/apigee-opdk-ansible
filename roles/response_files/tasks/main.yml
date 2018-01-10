@@ -5,7 +5,17 @@
     region: "{{ item }}"
     region_index: "{{ item[-1] }}"
   template:
-   src: response.cfg.j2
-   dest: "{{ playbook_dir }}/files/response_{{ planet }}_{{ item }}.cfg"
+    src: response.cfg.j2
+    dest: "{{ playbook_dir }}/files/response_{{ planet }}_{{ item }}.cfg"
+  with_items:
+    - "{{ regions.split(',') }}"
+
+- name: Generate provision template
+  delegate_to: localhost
+  vars:
+    region: "{{ item }}"
+  template:
+    src: response_provision.cfg.j2
+    dest: "{{ playbook_dir }}/files/response_{{ planet }}_{{ item }}_provision.cfg"
   with_items:
     - "{{ regions.split(',') }}"
