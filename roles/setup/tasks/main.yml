@@ -17,5 +17,7 @@
     - "{{ service_map[profile] }}"
 
 # Also in success goes to stderr :P
-- debug: msg="{{ status.stderr_lines }}"
+- debug: msg="{{ item.stderr_lines }}"
   when: cmd != "setup"
+  with_items:
+    - "{{ status.results }}"
