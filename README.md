@@ -1,6 +1,8 @@
 # Apigee OPDK ansible (Under construction)
 
-This repo is intended to be a small and more friendly for non ansible users subset of [Carlos Frias ansible playbooks](https://github.com/carlosfrias/apigee-opdk-playbook-setup-ansible) and [etp](https://github.com/yuriylesyuk/etp).
+This repo is intended to be a small and more friendly for non ansible users subset of [Carlos Frias ansible playbooks](https://github.com/carlosfrias/apigee-opdk-playbook-setup-ansible) and [etp](https://github.com/yuriylesyuk/etp). 
+
+Centralize Apigee Edge operation tasks using one inventory file as reference for all tasks.
 
 ## Requirements
 - ansible >= 2.2
@@ -45,41 +47,44 @@ $ brew install nmap
 # Usage
 
 ## Populate env.yml file
-Under project root there's an _env.yml_, fill the required variables:
+Under project root there's an _env.yml_, fill the required variables. 
 ```
-license_path: LICENSE_PATH
-apigee_user: APIGEE_SOFTWARE_USER
-apigee_pwd: APIGEE_SOFTWARE_PASSWORD
-ssh_user: SSH_USER
-ssh_key: PATH_TO_KEY
-ssh_pwd: SSH_PASSWORD
-ssh_bastion_host: BASTION_HOST
-ssh_bastion_user: BASTION_USER
-ssh_bastion_key: PATH_BASTION_KEY
-pg_ram_in_mb: PG_NODE_RAM_IN_MB
-edge_version: 4.17.09
-onboard_org_name: ORG_NAME
-onboard_admin_username: ORG_ADMIN_USER
-onboard_admin_name: ORG_ADMIN_NAME
-onboard_admin_lastname: ORG_ADMIN_LASTNAME
-onboard_admin_pwd: ORG_ADMIN_PASSWORD
-onboard_env: ONBOARD_ENV
-onboard_vhost_alias: ONBOARD_HOST_ALIAS
+license_path: LICENSE_PATH                    # license file absolute path including license file name.
+apigee_user: APIGEE_SOFTWARE_USER             # software.apigee.com user.
+apigee_pwd: APIGEE_SOFTWARE_PASSWORD          # software.apigee.com password.
+ssh_user: SSH_USER                            # ssh user.
+ssh_key: PATH_TO_KEY                          # ssh key absolute path.
+ssh_pwd: SSH_PASSWORD                         # ssh password. If not needed, leave the original value.
+ssh_bastion_host: BASTION_HOST                # ssh bastion/jumpbox host. If not needed, leave the original value.
+ssh_bastion_user: BASTION_USER                # ssh bastion/jumbox user. If not needed, leave the original value.
+ssh_bastion_key: PATH_BASTION_KEY             # ssh bastion/jumpbox key absolute path. If not needed, leave the original value.
+pg_ram_in_mb: PG_NODE_RAM_IN_MB               # Postgresql machine memory required to set memory adjustments.
+edge_version: 4.17.09                         # Apigee Edge version.
+onboard_org_name: ORG_NAME                    # organization name for onboarding. If not needed, leave the original value. 
+onboard_admin_username: ORG_ADMIN_USER        # org admin username (email format) for onboarding. If not needed, leave the original value. 
+onboard_admin_name: ORG_ADMIN_NAME            # org admin name for onboarding. If not needed, leave the original value. 
+onboard_admin_lastname: ORG_ADMIN_LASTNAME    # org admin lastname for onboarding. If not needed, leave the original value. 
+onboard_admin_pwd: ORG_ADMIN_PASSWORD         # org admin password for onboarding. If not needed, leave the original value. 
+onboard_env: ONBOARD_ENV                      # environment name for onboarding. If not needed, leave the original value. 
+onboard_vhost_alias: ONBOARD_HOST_ALIAS       # virtualhost alias for onboarding. If not needed, leave the original value.
 ```
 
 ## Create an ansible inventory file and topology diagram
 
 First create an [etp edge topology definition json file](https://github.com/yuriylesyuk/etp) (example _examples/topology-1dc-5n.json_).
+This is the only file that you need to create.
 
-Create inventory file:
+Ansible inventory file based on [apigee-opdk-inventory-file](https://github.com/carlosfrias/apigee-opdk-playbook-setup-ansible/blob/master/README-INVENTORY-FILE.md).
+
+Create an inventory file used by all Ansible playbooks and operation tasks:
 ```
 $ ansible-playbook -e "topology_src=PATH_TO_TOPOLOGY_FILE" inventory.yml
 ```
-Optionally, you can create the topology diagram in the same run setting the diagram variable to any value:
+Optionally, you can create the topology diagram in the same run setting the diagram variable to any value*:
 ```
 $ ansible-playbook -e "topology_src=PATH_TO_TOPOLOGY_FILE diagram=1" inventory.yml
 ```
-Create only the diagram:
+Create only the diagram*:
 ```
 $ ansible-playbook -e "topology_src=PATH_TO_TOPOLOGY_FILE" diagram.yml
 ```
@@ -87,24 +92,38 @@ Find the files under:
   - _inventory/inventory\_PLANET.INI_
   - _reports/topology-PLANET.svg_
 
+**Notes:** 
+  - \* These playbooks, diagram tasks, require nodejs and etp.
+  - Do not modify the inventory file.
+
 ## Create response files from inventory 
 
-Create an ansible inventory file based on [apigee-opdk-inventory-file](https://github.com/carlosfrias/apigee-opdk-playbook-setup-ansible/blob/master/README-INVENTORY-FILE.md):
+Create response file per region used by the installation, upgrade and other ops tasks. Also
+create the onboarding response file:
 ```
 $ ansible-playbook -e -i inventory/INVENTORY_FILE response_files.yml
 ```
-Find the response files under `files/response_PLANET_REGION.cfg`
+Find the response files under:
+  - _files/response_PLANET_REGION.cfg_
 
 ## Create port checking report
 
-Create port report for a whole planet using an inventory
+Create port report for a whole planet. This will test ports between nodes and create two CSV files:
+- Connectivity report grouped by edge component.
+- Compact report grouped by host.
 ```
 $ ansible-playbook -i inventory/INVENTORY_FILE port_report.yml
 ```
-Find the report files under `reports/port_connectivity_report_PLANET.csv`
+Find the report files under: 
+  - `reports/port_connectivity_report_PLANET.csv`
+  - `reports/port_compact_PLANET.csv`
 
 ## Install all prereqs and the apigee-setup utility accross the planet
-Install the apigee-setup utility and create the CS and MP systemlimits files and PG memory settings file:
+Install the prerequisites described [here](https://docs.apigee.com/private-cloud/latest/install-edge-apigee-setup-utility).
+Install the **apigee-setup** utility across the planet and the **apigee-provision** utility in the MS nodes.
+Create the Cassandra and Message Processor systemlimits files, and the Postgresql memory settings file. 
+Upload the license file and the response files across the planet.
+
 
 ```
 $ ansible-playbook -i inventory/INVENTORY_FILE prerequisites.yml
@@ -117,7 +136,7 @@ Install apigee edge components in the planet:
 $ ansible-playbook -i inventory/INVENTORY_FILE -e "cmd=setup" setup.yml
 ```
 ## Edge onboarding
-Org onboarding:
+Onboarding: create organization, environment, org admin user and default virtual host.
 
 ```
 $ ansible-playbook -i inventory/INVENTORY_FILE onboard.yml
@@ -146,26 +165,46 @@ $ ansible-playbook -i inventory/INVENTORY_FILE \
 ```
 
 ## Run apigee-service commands accross planet
-Run an apigee-service command.
+Run an apigee-service command in particular components or across the planet.
 
-Possible values:
+Possible values for command:
 - status
 - start
 - wait_for_ready
 - stop
 - restart
 
-```
-$ ansible-playbook -i inventory/INVENTORY_FILE -e "cmd=COMMAND" setup.yml
-```
+Possible values for component:
+- zk      (Zookeeper)
+- cs      (Cassandra)
+- ds      (Zookeeper and Cassandra)
+- ldap    (OpenLDAP)
+- ms      (Management Server)
+- msldap  (Management Server and OpenLDAP)
+- r       (Router)
+- mp      (Message Processor)
+- rmp     (Router and Message Processor)
+- qs      (QPIDD and Qpid Server)
+- pg      (Postgreql and Postgres Server)
+- all     (All Apigee Edge components)
 
-TODO: select a node/profile/component
+```
+$ ansible-playbook -i inventory/INVENTORY_FILE -e "cmd=COMMAND component=COMPONENT" setup.yml
+```
 
 ## Fetch Planet logs
-Tar all the edge logs from the node and download them in _reports/PLANET/_:
+Tar all the edge logs from each node.
 
 ```
 $ ansible-playbook -i inventory/INVENTORY_FILE logs.yml
+```
+
+Find the logs under:
+  - _reports/PLANET/_:
+
+## Ansible ad-hoc commands
+```
+$ ansible -i inventory/inventory_GCP_KP.INI dc-1 -m shell -a '/opt/apigee/apigee-service/bin/apigee-all status'
 ```
 
 ## Author
