@@ -1,32 +1,35 @@
 ---
-profile_map:
-  c: 
-    - ds
-  zk: 
-    - ds
-  ds: 
-    - ds
-  ld: 
-    - ldap
-  ms: 
-    - ms
-  r: 
-    - r
-  mp: 
-    - mp
-  rmp: 
-    - rmp
-  ui: 
-    - ui
-  qs: 
-    - qs
-  pdb: 
-    - pg
+service_map:
+  zk:
+    - apigee-zookeeper
+  c:
+    - apigee-cassandra
+  ds:
+    - apigee-cassandra
+    - apigee-zookeeper
+  ld:
+    - apigee-openldap
+  ms:
+    - apigee-openldap
+    - edge-management-server
+    - edge-ui    
+  r:
+    - edge-router
+  mp:
+    - edge-message-processor
+  rmp:
+    - edge-router
+    - edge-message-processor
+  qs:
+    - apigee-qpidd
+    - edge-qpid-server
+  ps:
+    - apigee-postgresql
+    - edge-postgres-server
   sax:
-    - qs
-    - pg
-  sso:
-  mo:
-  sa:
-  aio:
-  dp:
+    - apigee-qpidd
+    - edge-qpid-server
+    - apigee-postgresql
+    - edge-postgres-server
+  
+

@@ -4,3 +4,18 @@
   command: bash /opt/apigee/apigee-setup/bin/setup.sh -p {{ profile }} -f /tmp/apigee/response_{{ planet }}_{{ hostvars[inventory_hostname]['region'] }}.cfg
   async: 3600
   poll: 5
+  when: cmd == "setup"
+
+- name: Running {{ cmd }} in {{ inventory_hostnam }} in {{ profile }}
+  become: yes
+  command: /opt/apigee/apigee-service/bin/apigee-service {{ item }} {{ cmd }}
+  register: status
+  async: 3600
+  poll: 5
+  when: cmd != "setup"
+  with_items: 
+    - "{{ service_map[profile] }}"
+
+# Also in success goes to stderr :P
+- debug: msg="{{ status.stderr_lines }}"
+  when: cmd != "setup"

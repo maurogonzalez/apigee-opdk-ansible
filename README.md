@@ -114,17 +114,17 @@ $ ansible-playbook -i inventory/INVENTORY_FILE prerequisites.yml
 Install apigee edge components in the planet:
 
 ```
-$ ansible-playbook -i inventory/INVENTORY_FILE setup.yml
+$ ansible-playbook -i inventory/INVENTORY_FILE -e "cmd=setup" setup.yml
 ```
 ## Edge onboarding
-Install apigee edge components in the planet:
+Org onboarding:
 
 ```
 $ ansible-playbook -i inventory/INVENTORY_FILE onboard.yml
 ```
 
 ## Create Keystore and upload keystore jar
-Install apigee edge components in the planet:
+Create a JAR Keystore from key/cert pair, a Keystore in Edge and upload the JAR to Edge:
 
 ```
 $ ansible-playbook -i inventory/INVENTORY_FILE \
@@ -135,7 +135,7 @@ $ ansible-playbook -i inventory/INVENTORY_FILE \
 ```
 
 ## Create a VirtualHost with TLS enabled
-Install apigee edge components in the planet:
+Create virtual host and if **tls_enabled** set to any value in extra vars is created with TLS/SSL:
 
 ```
 $ ansible-playbook -i inventory/INVENTORY_FILE \
@@ -145,8 +145,24 @@ $ ansible-playbook -i inventory/INVENTORY_FILE \
   vhost_tls.yml
 ```
 
+## Run apigee-service commands accross planet
+Run an apigee-service command.
+
+Possible values:
+- status
+- start
+- wait_for_ready
+- stop
+- restart
+
+```
+$ ansible-playbook -i inventory/INVENTORY_FILE -e "cmd=COMMAND" setup.yml
+```
+
+TODO: select a node/profile/component
+
 ## Fetch Planet logs
-Install apigee edge components in the planet:
+Tar all the edge logs from the node and download them in _reports/PLANET/_:
 
 ```
 $ ansible-playbook -i inventory/INVENTORY_FILE logs.yml

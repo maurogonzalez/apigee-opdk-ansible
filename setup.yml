@@ -1,6 +1,7 @@
 --- 
 # Install Zookeeper 
 - hosts: zk
+  serial: 1
   roles:
     - setup
   vars: 
@@ -8,6 +9,7 @@
 
 # Install Cassandra
 - hosts: c
+  serial: 1
   roles:
     - setup
   vars: 
