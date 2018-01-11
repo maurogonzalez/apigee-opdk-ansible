@@ -9,7 +9,7 @@
           "nodes": [{
             "id": 1,
             "hostname": "DC1MS",
-            "ip": "10.138.0.2",
+            "ip": "10.0.0.3",
             "components": [{
                 "comp": "CS"
               },
@@ -28,7 +28,7 @@
           },{
             "id": 2,
             "hostname": "DC1DS2",
-            "ip": "10.138.0.3",
+            "ip": "10.0.0.4",
             "components": [{
                 "comp": "CS"
               },
@@ -46,7 +46,7 @@
           {
             "id": 3,
             "hostname": "DC1DS3",
-            "ip": "10.138.0.4",
+            "ip": "10.0.0.5",
             "components": [{
                 "comp": "CS"
               },
@@ -64,7 +64,7 @@
          {
             "id": 4,
             "hostname": "DC1RAX1",
-            "ip": "10.142.0.3",
+            "ip": "10.1.0.3",
             "components": [{
                 "comp": "PS"
               },
@@ -81,7 +81,7 @@
           },{
             "id": 5,
             "hostname": "DC1RAX2",
-            "ip": "10.142.0.4",
+            "ip": "10.1.0.4",
             "components": [{
                 "comp": "PS"
               },

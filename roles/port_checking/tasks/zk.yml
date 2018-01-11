@@ -1,6 +1,5 @@
 ---
-# tasks file for port-connectivity-validator
-- name: Zookeeper client port connectivity status  
+- name: ZK -> ZK port connectivity status  
   shell: |
     PASS=`nmap {{ hostvars[item.0].ansible_host }} -p {{  zookeeper_ports[item.1] }}|awk -F'/' '/filtered/ {print $1}'`;
     if [ ${PASS} -eq {{ zookeeper_ports[item.1] }} ]; then 

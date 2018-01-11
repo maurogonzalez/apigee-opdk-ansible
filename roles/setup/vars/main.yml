@@ -31,5 +31,3 @@ service_map:
     - edge-qpid-server
     - apigee-postgresql
     - edge-postgres-server
-  
-

@@ -47,31 +47,31 @@ localhost ansible_connection=local
 {% endfor %}
 
 [{{ r.name }}-c]
-# Listing of all the Cassandra and Zookeeper nodes in {{ r.name }}
+# Listing of all the isolated Cassandra nodes in {{ r.name }}
 {% for n in iteratee if "CS" in n.components and "ZK" not in n.components %}
 {{ n.name }}
 {% endfor %}
 
 [{{ r.name }}-zk]
-# Listing of all the Cassandra and Zookeeper nodes in {{ r.name }}
+# Listing of all the isolated Zookeeper nodes in {{ r.name }}
 {% for n in iteratee if "CS" not in n.components and "ZK" in n.components %}
 {{ n.name }}
 {% endfor %}
 
 [{{ r.name }}-msldap]
-# Listing of all the Management Server nodes in {{ r.name }}
+# Listing of all the Management Server and OpenLDAP nodes in {{ r.name }}
 {% for n in iteratee if "MS" in n.components and "OL" in n.components %}
 {{ n.name }}
 {% endfor %}
 
 [{{ r.name }}-ms]
-# Listing of all the Management Server nodes in {{ r.name }}
+# Listing of all the isolated Management Server nodes in {{ r.name }}
 {% for n in iteratee if "MS" in n.components and "OL" not in n.components %}
 {{ n.name }}
 {% endfor %}
 
 [{{ r.name }}-ldap]
-# Listing of all the OpenLDAP nodes in {{ r.name }}
+# Listing of all the isolated OpenLDAP nodes in {{ r.name }}
 {% for n in iteratee if "MS" not in n.components and "OL" in n.components %}
 {{ n.name }}
 {% set x=ldap_count.append(ldap_count.pop() + 1) %}
@@ -208,7 +208,7 @@ localhost ansible_connection=local
 {% endfor %}
 
 [all:vars]
-planet={{ json_schema.planet }}
+planet="{{ json_schema.planet }}"
 regions={{ regions | map(attribute='name') | join(',') }}
 opdk_admin_email="{{ json_schema.customer.adminEmail }}"
 opdk_admin_password="{{ json_schema.customer.adminPassword }}"
@@ -229,8 +229,12 @@ opdk_smtp_ssl="{{ json_schema.customer.smtpSSL }}"
 {%- raw %}
 ansible_user="{{ ansible_user }}"
 ansible_ssh_private_key_file="{{ ansible_ssh_private_key_file }}"
+{% endraw %}
+{% if json_schema.ssh.ssh_password %}
+{%- raw %}
 ansible_ssh_pass="{{ ansible_ssh_pass }}"
 {% endraw %}
+{% endif %}
 {% if json_schema.ssh.bastion.present %}
 {% raw %}
 ansible_ssh_common_args='-o ProxyCommand="ssh -i {{ bastion_private_key_file }} -W %h:%p -q {{ bastion_user }}@{{ bastion_host }}"'
