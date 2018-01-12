@@ -168,11 +168,30 @@ $ ansible-playbook -i inventory/INVENTORY_FILE logs.yml
 Find the logs under:
   - _reports/PLANET/_:
 
-## Ansible ad-hoc commands
-```
-$ ansible -i inventory/inventory_GCP_KP.INI dc-1 -m shell -a '/opt/apigee/apigee-service/bin/apigee-all status'
-```
+## Ansible Ad-Hoc commands
+[Ansible Ad-Hoc commands](http://docs.ansible.com/ansible/latest/intro_adhoc.html)
 
+Example: 
+```
+$ ansible -i inventory/INVENTORY_FILE HOST_GROUP -m shell -a '/opt/apigee/apigee-service/bin/apigee-all status'
+```
+Script for inventory group hosts:
+Run _echo "Hello node!"_ command example:
+```
+$ ./service.sh -i inventory/INVENTORY_FILE -g HOST_GROUP -c "echo 'Hello node!'"
+```
+Where:
+- **-h**: help
+- **-i**: ansible inventory path **Required**
+- **-c**: command to run in the node.
+- **-g**: ansible inventory group
+
+Default values:
+- If not _-c_ option provided, the default command is: _/opt/apigee/apigee-service/bin/apigee-all status_
+- If not _-g_ option provided, the default group is: _planet_
+```
+$ ./service.sh -i inventory/INVENTORY_FILE -g HOST_GROUP -c "echo 'Hello node!'"
+```
 ## Author
 
 If you have any questions regarding this project contact:  
