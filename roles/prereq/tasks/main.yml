@@ -8,7 +8,8 @@
     - wget
     - curl
     - telnet
-    - nc    
+    - nc  
+    - nmap  
     - java-1.8.0-openjdk-devel
 
 - name: Set JAVA_HOME for the installation

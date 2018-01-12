@@ -1,8 +1,8 @@
 ---
 - name: CS -> CS port connectivity status  
   shell: |
-    PASS=`nmap {{ hostvars[item.0].ansible_host }} -p {{  cassandra_ports[item.1] }}|awk -F'/' '/filtered/ {print $1}'`;
-    if [ ${PASS} -eq {{ cassandra_ports[item.1] }} ]; then 
+    PASS=`nmap -Pn {{ hostvars[item.0].ansible_host }} -p {{  cassandra_ports[item.1] }}|awk -F'/' '/filtered/ {print $1}'`;
+    if [ $PASS -eq {{ cassandra_ports[item.1] }} ]; then 
       RESULT="false"
     else
       RESULT="true"

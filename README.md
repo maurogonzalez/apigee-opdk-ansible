@@ -6,7 +6,6 @@ Centralize Apigee Edge operation tasks using one inventory file as reference for
 
 ## Requirements
 - ansible >= 2.2
-- nmap
 - etp (to create topology diagram)
 
 Go to the [installation wiki](https://github.com/maurogonzalez/apigee-opdk-ansible/wiki/Install-requirements).
@@ -73,6 +72,16 @@ $ ansible-playbook -e -i inventory/INVENTORY_FILE response_files.yml
 Find the response files under:
   - _files/response_PLANET_REGION.cfg_
 
+## Install all prereqs and the apigee-setup utility accross the planet
+Install the prerequisites described [here](https://docs.apigee.com/private-cloud/latest/install-edge-apigee-setup-utility).
+Install the **apigee-setup** utility across the planet and the **apigee-provision** utility in the MS nodes.
+Create the Cassandra and Message Processor systemlimits files, and the Postgresql memory settings file. 
+Upload the license file and the response files across the planet.
+
+```
+$ ansible-playbook -i inventory/INVENTORY_FILE prerequisites.yml
+```
+
 ## Create port checking report
 
 Create port report for a whole planet. This will test ports between nodes and create two CSV files:
@@ -85,17 +94,7 @@ Find the report files under:
   - `reports/port_connectivity_report_PLANET.csv`
   - `reports/port_compact_PLANET.csv`
 
-## Install all prereqs and the apigee-setup utility accross the planet
-Install the prerequisites described [here](https://docs.apigee.com/private-cloud/latest/install-edge-apigee-setup-utility).
-Install the **apigee-setup** utility across the planet and the **apigee-provision** utility in the MS nodes.
-Create the Cassandra and Message Processor systemlimits files, and the Postgresql memory settings file. 
-Upload the license file and the response files across the planet.
-
-
-```
-$ ansible-playbook -i inventory/INVENTORY_FILE prerequisites.yml
-```
-
+**Note:** The hosts require _nmap_, it is installed in the above prerequisites playbook.
 ## Install Apigee Edge in planet
 Install apigee edge components in the planet:
 

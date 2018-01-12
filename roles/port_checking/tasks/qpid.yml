@@ -7,7 +7,7 @@
 # REGIONAL
 - name: QPIDD -> DS port connectivity status  
   shell: |
-    PASS=`nmap {{ hostvars[item.0].ansible_host }} -p {{  item.1 }}|awk -F'/' '/filtered/ {print $1}'`;
+    PASS=`nmap -Pn {{ hostvars[item.0].ansible_host }} -p {{  item.1 }}|awk -F'/' '/filtered/ {print $1}'`;
     if [ ${PASS} -eq {{ item.1 }} ]; then 
       RESULT="false"
     else
@@ -23,7 +23,7 @@
 # REGIONAL
 - name: QPIDD -> MS port connectivity status  
   shell: |
-    PASS=`nmap {{ hostvars[item.0].ansible_host }} -p {{  item.1 }}|awk -F'/' '/filtered/ {print $1}'`;
+    PASS=`nmap -Pn {{ hostvars[item.0].ansible_host }} -p {{  item.1 }}|awk -F'/' '/filtered/ {print $1}'`;
     if [ ${PASS} -eq {{ item.1 }} ]; then 
       RESULT="false"
     else
@@ -38,7 +38,7 @@
 
 - name: QPIDD -> PG port connectivity status  
   shell: |
-    PASS=`nmap {{ hostvars[item.0].ansible_host }} -p {{  item.1 }}|awk -F'/' '/filtered/ {print $1}'`;
+    PASS=`nmap -Pn {{ hostvars[item.0].ansible_host }} -p {{  item.1 }}|awk -F'/' '/filtered/ {print $1}'`;
     if [ ${PASS} -eq {{ item.1 }} ]; then 
       RESULT="false"
     else
