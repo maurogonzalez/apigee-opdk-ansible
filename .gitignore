@@ -2,3 +2,4 @@
 files/*
 inventory/*
 reports/*
+!*/.gitkeep 
