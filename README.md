@@ -168,6 +168,42 @@ $ ansible-playbook -i inventory/INVENTORY_FILE logs.yml
 Find the logs under:
   - _reports/PLANET/_:
 
+## Create custom role
+Create custom role
+
+```
+$ ansible-playbook -i inventory/INVENTORY_FILE \
+  -e "api_action=roles org=ORG role=ROLE_NAME \
+  customrole_path=ROLE_PATH" adminapi.yml
+```
+
+Extra vars:
+- _api\_action_=roles
+- _org_: org name where new role is created
+- _role_: new role name
+- customrole\_path_: path to role in JSON format. Example in _examples/customrole.json_
+
+## Create user 
+Create user and add to existing role
+
+```
+$ ansible-playbook -i inventory/INVENTORY_FILE \
+  -e "api_action=users org=ORG role=ROLE_NAME \
+  user_email=USER_EMAIL user_password=USER_PASSWORD \
+  user_name=USER_NAME user_lastname=USER_LASTNAME" \
+  adminapi.yml
+```
+
+Extra vars:
+- _api\_action_=users
+- _org_: org name where new user is created
+- _role_: existing role given to new user
+- _user\_email_: new user email
+- _user\_password_: new user password
+- _user\_name_: new user name
+- _user\_lastname_: new user last name
+
+
 ## Ansible Ad-Hoc commands
 [Ansible Ad-Hoc commands](http://docs.ansible.com/ansible/latest/intro_adhoc.html)
 

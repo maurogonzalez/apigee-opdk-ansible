@@ -1,11 +1,6 @@
 ---
-# - name: Read role
-#   uri: 
-#     url: "{{ api_base_url }}/{{ api_operations['add']['userroles'] }}"
-#     user: "{{ opdk_admin_email }}"
-#     password: "{{ opdk_admin_password }}"
-#     force_basic_auth: yes
-#     status_code: 200
+- set_fact:
+    customrole_template: "{{ customrole_path | default('userrole.json.j2') }}"
 
 - name: Create role
   uri: 
@@ -27,7 +22,7 @@
     password: "{{ opdk_admin_password }}"
     method: POST
     force_basic_auth: yes
-    body: "{{ lookup('template', 'userrole.json.j2') }}"
+    body: "{{ lookup('template', customrole_template) }}"
     body_format: json
     headers:
       Content-Type: "application/json"
