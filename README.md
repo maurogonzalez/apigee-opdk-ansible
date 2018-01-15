@@ -135,10 +135,12 @@ Run an apigee-service command in particular components or across the planet.
 
 Possible values for command:
 - status
-- start
+- start*
 - wait_for_ready
 - stop
-- restart
+- restart*
+
+\*  Start and restart are not recommended since the start order is important: [Starting apigee components](https://docs.apigee.com/private-cloud/latest/starting-stopping-and-restarting-apigee-edge)
 
 Possible values for component:
 - zk      (Zookeeper)

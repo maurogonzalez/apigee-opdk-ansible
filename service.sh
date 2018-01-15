@@ -53,9 +53,9 @@ if [[ -z $INVENTORY ]]
 then  
   usage
   exit 1
-else 
-  echo "Running $(default_cmd $CMD) in: "
+else
+  echo "Running $(default_cmd "$CMD") in: "
   echo "  $(default_group $GROUP) with inventory: $INVENTORY"  
   ansible -i $INVENTORY $(default_group $GROUP) -m shell \
-    -a "$(default_cmd $CMD)"
+    -a "$(default_cmd "$CMD")"
 fi
