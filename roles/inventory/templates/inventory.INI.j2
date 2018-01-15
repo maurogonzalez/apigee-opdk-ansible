@@ -242,6 +242,4 @@ ansible_ssh_common_args='-o ProxyCommand="ssh -i {{ bastion_private_key_file }} 
 {% endif %}
 
 [defaults]
-{% if json_schema.ssh.ssh_password %}
-host_key_check=false
-{% endif %}
+host_key_checking=False
