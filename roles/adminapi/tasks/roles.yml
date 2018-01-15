@@ -1,0 +1,34 @@
+---
+# - name: Read role
+#   uri: 
+#     url: "{{ api_base_url }}/{{ api_operations['add']['userroles'] }}"
+#     user: "{{ opdk_admin_email }}"
+#     password: "{{ opdk_admin_password }}"
+#     force_basic_auth: yes
+#     status_code: 200
+
+- name: Create role
+  uri: 
+    url: "{{ api_base_url }}/{{ api_operations['add']['role'] }}"
+    user: "{{ opdk_admin_email }}"
+    password: "{{ opdk_admin_password }}"
+    method: POST
+    force_basic_auth: yes
+    body: "{{ lookup('template', 'role.json.j2') }}"
+    body_format: json
+    headers:
+      Content-Type: "application/json"
+    status_code: 201,409 
+
+- name: Create role permissions
+  uri: 
+    url: "{{ api_base_url }}/{{ api_operations['add']['resourcepermissions'] }}"
+    user: "{{ opdk_admin_email }}"
+    password: "{{ opdk_admin_password }}"
+    method: POST
+    force_basic_auth: yes
+    body: "{{ lookup('template', 'userrole.json.j2') }}"
+    body_format: json
+    headers:
+      Content-Type: "application/json"
+    status_code: 201,409 
