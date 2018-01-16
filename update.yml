@@ -122,7 +122,8 @@
   - include_role:
       name: setup
     vars: 
-      profile: edge      
+      profile: edge
+      cmd: update 
 
 # Update Router
 - hosts: r
