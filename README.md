@@ -14,6 +14,7 @@ Go to the [installation wiki](https://github.com/maurogonzalez/apigee-opdk-ansib
 
 ## Populate env.yml file
 Under project root there's an _env.yml_, fill the required variables. 
+
 property | example | description
 --- | --- | ---
 license_path | /home/gump/license.txt | license file absolute path including license file name.
