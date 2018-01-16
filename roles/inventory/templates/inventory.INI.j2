@@ -217,22 +217,13 @@ opdk_ldap_type="2"
 {% else %}
 opdk_ldap_type="1"
 {%endif%}
-opdk_smtp_mail_from="{{ json_schema.customer.smtpMailFrom }}"
-opdk_smtp_skip="{{ json_schema.customer.smtpSkip }}"
-opdk_smtp_user="{{ json_schema.customer.smtpEmail }}"
-{% if json_schema.customer.smtpSkip=="n" %}
-opdk_smtp_host="{{ json_schema.customer.smtpHost }}"
-opdk_smtp_port="{{ json_schema.customer.smtpPort }}"
-opdk_smtp_password="{{ json_schema.customer.smtpPassword }}"
-opdk_smtp_ssl="{{ json_schema.customer.smtpSSL }}"
-{% endif %}
 {%- raw %}
-ansible_user="{{ ansible_user }}"
-ansible_ssh_private_key_file="{{ ansible_ssh_private_key_file }}"
+ansible_user="{{ ssh_user }}"
+ansible_ssh_private_key_file="{{ ssh_key }}"
 {% endraw %}
 {% if json_schema.ssh.ssh_password %}
 {%- raw %}
-ansible_ssh_pass="{{ ansible_ssh_pass }}"
+ansible_ssh_pass="{{ ssh_pwd }}"
 {% endraw %}
 {% endif %}
 {% if json_schema.ssh.bastion.present %}
