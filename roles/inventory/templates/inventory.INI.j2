@@ -210,8 +210,6 @@ localhost ansible_connection=local
 [all:vars]
 planet="{{ json_schema.planet }}"
 regions={{ regions | map(attribute='name') | join(',') }}
-opdk_admin_email="{{ json_schema.customer.adminEmail }}"
-opdk_admin_password="{{ json_schema.customer.adminPassword }}"
 {% if ldap_count.0>1 %}
 opdk_ldap_type="2"
 {% else %}
