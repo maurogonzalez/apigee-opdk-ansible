@@ -104,18 +104,6 @@
 			]
 		}
 	],
-	"customer": {
-		"brand": "Apigee-OPDK",
-		"adminEmail": "opdk@google.com",
-		"adminPassword": "Apigee123!",
-    "smtpSkip": "n",
-    "smtpMailFrom": "Edge Admin",
-		"smtpHost": "smtp.host.com",
-		"smtpPort": "25",
-		"smtpEmail": "smtp@google.com",
-		"smtpPassword": "Apigee123!",
-		"smtpSSL": "n"
-	},
 	"ssh": {
 		"bastion": {
 			"present": false
