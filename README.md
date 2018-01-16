@@ -34,7 +34,7 @@ onboard_admin_pwd: ORG_ADMIN_PASSWORD         # org admin password for onboardin
 onboard_env: ONBOARD_ENV                      # environment name for onboarding. If not needed, leave the original value. 
 onboard_vhost_alias: ONBOARD_HOST_ALIAS       # virtualhost alias for onboarding. If not needed, leave the original value.
 ```
-
+**Note:** If you want to encrypt sensitive data: [vault wiki](https://github.com/maurogonzalez/apigee-opdk-ansible/wiki/Encrypting-sensitive-data).
 ## Create an ansible inventory file and topology diagram
 
 First create an [etp edge topology definition json file](https://github.com/yuriylesyuk/etp) (example _examples/topology-1dc-5n.json_).
@@ -135,12 +135,10 @@ Run an apigee-service command in particular components or across the planet.
 
 Possible values for command:
 - status
-- start*
+- start
 - wait_for_ready
 - stop
-- restart*
-
-\*  Start and restart are not recommended since the start order is important: [Starting apigee components](https://docs.apigee.com/private-cloud/latest/starting-stopping-and-restarting-apigee-edge)
+- restart
 
 Possible values for component:
 - zk      (Zookeeper)
@@ -230,6 +228,9 @@ Default values:
 ```
 $ ./service.sh -i inventory/INVENTORY_FILE -g HOST_GROUP -c "echo 'Hello node!'"
 ```
+
+\* _/opt/apigee/apigee-service/bin/apigee-all start|restart_ are not recommended since the start order is important: [Starting apigee components](https://docs.apigee.com/private-cloud/latest/starting-stopping-and-restarting-apigee-edge)
+
 ## Author
 
 If you have any questions regarding this project contact:  
