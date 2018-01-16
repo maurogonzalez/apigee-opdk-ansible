@@ -14,35 +14,36 @@ Go to the [installation wiki](https://github.com/maurogonzalez/apigee-opdk-ansib
 
 ## Populate env.yml file
 Under project root there's an _env.yml_, fill the required variables. 
-```
-license_path: LICENSE_PATH                    # license file absolute path including license file name.
-apigee_user: APIGEE_SOFTWARE_USER             # software.apigee.com user.
-apigee_pwd: APIGEE_SOFTWARE_PASSWORD          # software.apigee.com password.
-ssh_user: SSH_USER                            # ssh user.
-ssh_key: PATH_TO_KEY                          # ssh key absolute path.
-ssh_pwd: SSH_PASSWORD                         # ssh password. If not needed, leave the original value.
-ssh_bastion_host: BASTION_HOST                # ssh bastion/jumpbox host. If not needed, leave the original value.
-ssh_bastion_user: BASTION_USER                # ssh bastion/jumbox user. If not needed, leave the original value.
-ssh_bastion_key: PATH_BASTION_KEY             # ssh bastion/jumpbox key absolute path. If not needed, leave the original value.
-pg_ram_in_mb: PG_NODE_RAM_IN_MB               # Postgresql machine memory required to set memory adjustments.
-edge_version: 4.17.09                         # Apigee Edge version.
-opdk_admin_email: EDGE_ADMIN_EMAIL            # Apigee Edge installation admin email.
-opdk_admin_password: EDGE_ADMIN_PWD           # Apigee Edge installation admin password.
-opdk_smtp_mail_from: SMTP_FROM                # SMTP from.
-opdk_smtp_skip: SMTP_SKIP                     # "y" to skip SMTP configuration or "n".
-opdk_smtp_user: SMTP_USER                     # SMTP user.
-opdk_smtp_password: SMTP_PWD                  # SMTP password.
-opdk_smtp_host: SMTP_HOST                     # SMTP host.
-opdk_smtp_port: SMTP_PORT                     # SMTP port.
-opdk_smtp_ssl: SMTP_SSL                       # "y" or "n".
-onboard_org_name: ORG_NAME                    # organization name for onboarding. If not needed, leave the original value. 
-onboard_admin_username: ORG_ADMIN_USER        # org admin username (email format) for onboarding. If not needed, leave the original value. 
-onboard_admin_name: ORG_ADMIN_NAME            # org admin name for onboarding. If not needed, leave the original value. 
-onboard_admin_lastname: ORG_ADMIN_LASTNAME    # org admin lastname for onboarding. If not needed, leave the original value. 
-onboard_admin_pwd: ORG_ADMIN_PASSWORD         # org admin password for onboarding. If not needed, leave the original value. 
-onboard_env: ONBOARD_ENV                      # environment name for onboarding. If not needed, leave the original value. 
-onboard_vhost_alias: ONBOARD_HOST_ALIAS       # virtualhost alias for onboarding. If not needed, leave the original value.
-```
+property | example | description
+--- | --- | ---
+license_path | /home/gump/license.txt | license file absolute path including license file name.
+apigee_user | bubbagump | software.apigee.com user.
+apigee_pwd | mygumppassword | software.apigee.com password.
+ssh_user | mgump | ssh user.
+ssh_key | /home/gump/.ssh/gumptron.key | ssh key absolute path.
+ssh_pwd | gumpsecret | ssh password. If not needed, leave the original value.
+ssh_bastion_host | 35.0.0.3 | ssh bastion/jumpbox host. If not needed, leave the original value.
+ssh_bastion_user | runforest | ssh bastion/jumbox user. If not needed, leave the original value.
+ssh_bastion_key | /home/gump/runforest.key | ssh bastion/jumpbox key absolute path. If not needed, leave the original value.
+pg_ram_in_mb | 4096 | Postgresql machine memory required to set memory adjustments.
+edge_version | 4.17.09 | Apigee Edge version. At this point is 4.17.09.
+opdk_admin_email | forest@gump.com | Apigee Edge installation admin email.
+opdk_admin_password| forestpwd | Apigee Edge installation admin password.
+opdk_smtp_mail_from| forest@smtp.com | SMTP from.
+opdk_smtp_skip | n | "y" to skip SMTP configuration or "n".
+opdk_smtp_user | forest@user.com | SMTP user.
+opdk_smtp_password | forestpwd | SMTP password.
+opdk_smtp_host | smtp.gump.com | SMTP host.
+opdk_smtp_port | 25 | SMTP port.
+opdk_smtp_ssl | n | "y" or "n".
+onboard_org_name | BubbaGump | organization name for onboarding. If not needed, leave the original value. 
+onboard_admin_username | forest@gump.com | org admin username (email format) for onboarding. If not needed, leave the original value. 
+onboard_admin_name | Forest | org admin name for onboarding. If not needed, leave the original value. 
+onboard_admin_lastname | Gump | org admin lastname for onboarding. If not needed, leave the original value. 
+onboard_admin_pwd | forestpwd | org admin password for onboarding. If not needed, leave the original value. 
+onboard_env | war | environment name for onboarding. If not needed, leave the original value. 
+onboard_vhost_alias | api.forest.com  | virtualhost alias for onboarding. If not needed, leave the original value.
+
 **Note:** If you want to encrypt sensitive data: [vault wiki](https://github.com/maurogonzalez/apigee-opdk-ansible/wiki/Encrypting-sensitive-data).
 ## Create an ansible inventory file and topology diagram
 
@@ -104,12 +105,30 @@ Find the report files under:
   - `reports/port_compact_PLANET.csv`
 
 **Note:** The hosts require _nmap_, it is installed in the above prerequisites playbook.
-## Install Apigee Edge in planet
+
+## Install Apigee Edge
 Install apigee edge components in the planet:
 
 ```
 $ ansible-playbook -i inventory/INVENTORY_FILE -e "cmd=setup" setup.yml
 ```
+
+## Update Apigee Edge
+Update apigee edge components in the planet, only if current version >= 4.16.09.
+
+Set the value of the target version in your _env.yml_:
+```
+# filename: env.yml
+...
+edge_version: 4.17.09
+...
+```
+And run:
+
+```
+$ ansible-playbook -i inventory/INVENTORY_FILE update.yml
+```
+
 ## Edge onboarding
 Onboarding: create organization, environment, org admin user and default virtual host.
 
