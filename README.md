@@ -358,7 +358,7 @@ Run check commands across the planet:
     - Qpid Server (8083).
     - Postgres Server (8084).
 
-- _Analytics groups: List the Analytics groups and servers.
+- _Analytics groups_: List the Analytics groups and servers.
 
 ```
 $ ansible-playbook -i inventory/INVENTORY_FILE planet_scan.yml
