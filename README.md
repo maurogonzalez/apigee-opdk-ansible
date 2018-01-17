@@ -332,25 +332,33 @@ $ ansible-playbook -i inventory/INVENTORY_FILE logs.yml
 ```
 
 ## Run planet scan
-Run check commands across the planet.
+Run check commands across the planet:
 
-**Edge pods**
-- Central pod.
-- Gateway pod.
-- Analytics pod.
+- _Edge pods_: List servers for each Pod.
+    - Central pod.
+    - Gateway pod.
+    - Analytics pod.
 
-**Zookeeper**
-- _ruok_.
-- _stat_.
-- Zookeeper tree.
+- _Zookeeper_: Run Zookeeper status commands.
+    - _ruok_.
+    - _stat_.
+    - Zookeeper tree.
 
-**Cassandra**
-- nodetool ring.
-- nodetool status.
-- nodetool statusthrift
+- _Cassandra_: Run Cassandra nodetool commands.
+    - ring.
+    - status.
+    - statusthrift
 
-**Postgres**
-- master/standby check.
+- _Postgres_: Check master/standby nodes.
+
+- _Management ports check (self status)_: Get info from each Edge component.
+    - Management Server (8080).
+    - Router (8081).
+    - Message Processor (8082).
+    - Qpid Server (8083).
+    - Postgres Server (8084).
+
+- _Analytics groups: List the Analytics groups and servers.
 
 ```
 $ ansible-playbook -i inventory/INVENTORY_FILE planet_scan.yml

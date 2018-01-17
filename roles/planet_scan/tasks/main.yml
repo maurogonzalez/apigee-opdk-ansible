@@ -35,16 +35,26 @@
   set_fact: 
     pg_check: "{{ hostvars['localhost']['pg_check_res']['results'] }}"
 
-- name: Set PG facts
-  set_fact: 
-    pg_check: "{{ hostvars['localhost']['pg_check_res']['results'] }}" 
-
 - name: Validations | Pods
   include_tasks: pods.yml
   
 - name: Set Pods facts
   set_fact: 
     pod_servers: "{{ hostvars['localhost']['pod_servers_res']['results'] }}"  
+
+- name: Validations | self
+  include_tasks: self.yml
+
+- name: Set self facts
+  set_fact: 
+    self_status: "{{ hostvars['localhost']['self_res']['results'] + hostvars['localhost']['self_rmp_res']['results'] }}"
+
+- name: Validations | AX groups
+  include_tasks: ax.yml
+
+- name: Set ax facts
+  set_fact: 
+    ax_status: "{{ hostvars['localhost']['ax_groups_res'] }}"
 
 - name: Create scan files
   template:
@@ -57,10 +67,19 @@
     - cs_status.txt.j2
     - cs_statusthrift.csv.j2
     - pg_check.csv.j2
+    - ax_groups.json.j2
 
 - name: Create Pod files
   template:
     src: pod.json.j2
-    dest: "{{ scan_path }}/pod_{{ item['item'][0]~'_'~item['item'][1] }}.json"
+    dest: "{{ scan_path }}/pod_{{ item['item'][1]~'_'~item['item'][0] }}.json"
   with_items:
-    - "{{ pod_servers }}"    
+    - "{{ pod_servers }}"
+
+- name: Create self files
+  template:
+    src: self.json.j2
+    dest: "{{ scan_path }}/self_{{ item['item'][1]~'_'~item['item'][0] }}.json"
+  when: item['skipped'] is not defined
+  with_items:
+    - "{{ self_status }}"
