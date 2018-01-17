@@ -1,0 +1,14 @@
+- name: Get self status
+  uri:
+    url: http://localhost:{{ mgmtport }}/v1/servers/self
+    user: "{{ opdk_admin_email }}"
+    password: "{{ opdk_admin_password }}"
+    force_basic_auth: yes
+    headers:
+      Content-Type: "application/json"
+    status_code: 200
+    return_content: yes
+  register: self_status_res
+  with_nested:
+    - "{{ groups['planet'] }}"
+    - "{{ mgmt_ports }}"

@@ -2,48 +2,54 @@
 
 This repo is intended to be a small and more friendly for non ansible users subset of [Carlos Frias ansible playbooks](https://github.com/carlosfrias/apigee-opdk-playbook-setup-ansible) and [etp](https://github.com/yuriylesyuk/etp). 
 
-Centralize Apigee Edge operation tasks using one inventory file as reference for all tasks.
+Centralize Edge operation tasks using one inventory file as reference for all tasks.
 
 ## Requirements
 - ansible >= 2.2
 - etp (to create topology diagram)
 
-Go to the [installation wiki](https://github.com/maurogonzalez/apigee-opdk-ansible/wiki/Install-requirements).
+Go to the [Installation wiki](https://github.com/maurogonzalez/apigee-opdk-ansible/wiki/Install-requirements).
 
 # Usage
 
 ## Populate env.yml file
 Under project root there's an _env.yml_, fill the required variables. 
 
-property | example | description
+Property | Example | Description
 --- | --- | ---
-license_path | /home/gump/license.txt | license file absolute path including license file name.
-apigee_user | bubbagump | software.apigee.com user.
-apigee_pwd | mygumppassword | software.apigee.com password.
+license_path* | /home/gump/license.txt |  License file absolute path including license file name.
+apigee_user* | bubbagump | software.apigee.com user.
+apigee_pwd* | mygumppassword | software.apigee.com password.
 ssh_user | mgump | ssh user.
 ssh_key | /home/gump/.ssh/gumptron.key | ssh key absolute path.
 ssh_pwd | gumpsecret | ssh password. If not needed, leave the original value.
 ssh_bastion_host | 35.0.0.3 | ssh bastion/jumpbox host. If not needed, leave the original value.
 ssh_bastion_user | runforest | ssh bastion/jumbox user. If not needed, leave the original value.
 ssh_bastion_key | /home/gump/runforest.key | ssh bastion/jumpbox key absolute path. If not needed, leave the original value.
-pg_ram_in_mb | 4096 | Postgresql machine memory required to set memory adjustments.
-edge_version | 4.17.09 | Apigee Edge version. At this point is 4.17.09.
-opdk_admin_email | forest@gump.com | Apigee Edge installation admin email.
-opdk_admin_password| forestpwd | Apigee Edge installation admin password.
-opdk_smtp_mail_from| forest@smtp.com | SMTP from.
-opdk_smtp_skip | n | "y" to skip SMTP configuration or "n".
-opdk_smtp_user | forest@user.com | SMTP user.
-opdk_smtp_password | forestpwd | SMTP password.
-opdk_smtp_host | smtp.gump.com | SMTP host.
-opdk_smtp_port | 25 | SMTP port.
-opdk_smtp_ssl | n | "y" or "n".
-onboard_org_name | BubbaGump | organization name for onboarding. If not needed, leave the original value. 
-onboard_admin_username | forest@gump.com | org admin username (email format) for onboarding. If not needed, leave the original value. 
-onboard_admin_name | Forest | org admin name for onboarding. If not needed, leave the original value. 
-onboard_admin_lastname | Gump | org admin lastname for onboarding. If not needed, leave the original value. 
-onboard_admin_pwd | forestpwd | org admin password for onboarding. If not needed, leave the original value. 
-onboard_env | war | environment name for onboarding. If not needed, leave the original value. 
-onboard_vhost_alias | api.forest.com  | virtualhost alias for onboarding. If not needed, leave the original value.
+pg_ram_in_mb* | 4096 | Postgresql machine memory required to set memory adjustments.
+edge_version* | 4.17.09 |  Edge version. At this point is 4.17.09.
+opdk_admin_email** | forest@gump.com |  Edge installation admin email.
+opdk_admin_password** | forestpwd | Edge installation admin password.
+opdk_smtp_mail_from** | forest@smtp.com | SMTP from.
+opdk_smtp_skip** | n | "y" to skip SMTP configuration or "n".
+opdk_smtp_user** | forest@user.com | SMTP user.
+opdk_smtp_password** | forestpwd | SMTP password.
+opdk_smtp_host** | smtp.gump.com | SMTP host.
+opdk_smtp_port** | 25 | SMTP port.
+opdk_smtp_ssl** | n | "y" or "n".
+onboard_org_name*** | BubbaGump | organization name for onboarding. If not needed, leave the original value. 
+onboard_admin_username*** | forest@gump.com | org admin username (email format) for onboarding. If not needed, leave the original value. 
+onboard_admin_name*** | Forest | org admin name for onboarding. If not needed, leave the original value. 
+onboard_admin_lastname*** | Gump | org admin lastname for onboarding. If not needed, leave the original value. 
+onboard_admin_pwd*** | forestpwd | org admin password for onboarding. If not needed, leave the original value. 
+onboard_env*** | test | environment name for onboarding. If not needed, leave the original value. 
+onboard_vhost_alias*** | api.forest.com  | virtualhost alias for onboarding. If not needed, leave the original value.
+
+\* Required.
+
+** Required if _opdk_smtp_skip=n_.
+
+*** Required for onboarding.
 
 **Note:** If you want to encrypt sensitive data: [vault wiki](https://github.com/maurogonzalez/apigee-opdk-ansible/wiki/Encrypting-sensitive-data).
 ## Create an ansible inventory file and topology diagram
@@ -65,12 +71,20 @@ Create only the diagram*:
 ```
 $ ansible-playbook -e "topology_src=PATH_TO_TOPOLOGY_FILE" diagram.yml
 ```
+
+Variable | Example | Description
+--- | --- | ---
+topolgy_src* | examples/topology.json | Path to topology json file.
+diagram | 1 | Set to some value if you want to generate the diagram in the inventory play.
+
+\* Required
+
 Find the files under:
   - _inventory/inventory\_PLANET.INI_
   - _reports/topology-PLANET.svg_
 
 **Notes:** 
-  - \* These playbooks, diagram tasks, require nodejs and etp.
+  - \* Diagram tasks, require nodejs and etp ([Installation wiki](https://github.com/maurogonzalez/apigee-opdk-ansible/wiki/Install-requirements)).
   - Do not modify the inventory file.
 
 ## Create response files from inventory 
@@ -84,10 +98,23 @@ Find the response files under:
   - _files/response_PLANET_REGION.cfg_
 
 ## Install all prereqs and the apigee-setup utility accross the planet
-Install the prerequisites described [here](https://docs.apigee.com/private-cloud/latest/install-edge-apigee-setup-utility).
-Install the **apigee-setup** utility across the planet and the **apigee-provision** utility in the MS nodes.
-Create the Cassandra and Message Processor systemlimits files, and the Postgresql memory settings file. 
-Upload the license file and the response files across the planet.
+Install the prerequisites described [here](https://docs.apigee.com/private-cloud/latest/install-edge-apigee-setup-utility) and some more
+useful tools.
+
+Installs the following packages across the planet:
+- wget
+- curl
+- telnet
+- nc  
+- nmap  
+- java-1.8.0-openjdk-devel
+- apigee-service
+- apigee-setup
+- apigee-provision in management nodes
+
+Uploads the license file, the response and onboarding files. 
+
+Sets Cassandra, Message Processor and Postgresql memory settings.
 
 ```
 $ ansible-playbook -i inventory/INVENTORY_FILE prerequisites.yml
@@ -102,20 +129,20 @@ Create port report for a whole planet. This will test ports between nodes and cr
 $ ansible-playbook -i inventory/INVENTORY_FILE port_report.yml
 ```
 Find the report files under: 
-  - `reports/port_connectivity_report_PLANET.csv`
-  - `reports/port_compact_PLANET.csv`
+  - _reports/port_connectivity_report_PLANET.csv_
+  - _reports/port_compact_PLANET.csv_
 
 **Note:** The hosts require _nmap_, it is installed in the above prerequisites playbook.
 
-## Install Apigee Edge
-Install apigee edge components in the planet:
+## Install Edge
+Install Edge components in the planet:
 
 ```
 $ ansible-playbook -i inventory/INVENTORY_FILE -e "cmd=setup" setup.yml
 ```
 
-## Update Apigee Edge
-Update apigee edge components in the planet, only if current version >= 4.16.09.
+## Update Edge
+Update Edge components in the planet, only if current version >= 4.16.09.
 
 Set the value of the target version in your _env.yml_:
 ```
@@ -138,7 +165,9 @@ $ ansible-playbook -i inventory/INVENTORY_FILE onboard.yml
 ```
 
 ## Create Keystore and upload keystore jar
-Create a JAR Keystore from key/cert pair, a Keystore in Edge and upload the JAR to Edge:
+[Apigee Keystores and Truststores](https://docs.apigee.com/api-services/content/keystores-and-truststores).
+
+Create a jar Keystore from key/cert pair, an Apigee Keystore in Edge and upload the JAR to Edge:
 
 ```
 $ ansible-playbook -i inventory/INVENTORY_FILE \
@@ -148,8 +177,19 @@ $ ansible-playbook -i inventory/INVENTORY_FILE \
   keystore.yml
 ```
 
+Variable | Example | Description
+--- | --- | ---
+keyalias* | my_key_alias | Key alias. 
+keystore* | keystore | Keystore name.
+ks_cert* | tls/server.crt  | Path to cert file.
+ks_key* | tls/server.key | Path to key file.
+ks_org* | BubbaGump | Edge Org where the Keystore is going to be created.
+ks_env* | test | Edge Env where the Keystore is going to be created.
+
+\* Required.
+
 ## Create a VirtualHost with TLS enabled
-Create virtual host and if **tls_enabled** set to any value in extra vars is created with TLS/SSL:
+Create virtual host in an existing Edge Org/Env.
 
 ```
 $ ansible-playbook -i inventory/INVENTORY_FILE \
@@ -159,17 +199,36 @@ $ ansible-playbook -i inventory/INVENTORY_FILE \
   vhost_tls.yml
 ```
 
+Variable | Example | Description
+--- | --- | ---
+vhost_name* | tls/server.crt  | Path to cert file.
+vhost_aliases* | tls/server.key | Path to key file.
+org* | BubbaGump | Edge Org where the Keystore is going to be created.
+env* | test | Edge Env where the Keystore is going to be created.
+tls_enabled* | true | Enable TLS. 
+keyalias** | my_key_alias | Existing key alias. 
+keystore** | keystore | Existing keystore name.
+
+\* Required.
+
+** Required if tls_enabled is set to any value.
+
 ## Run apigee-service commands accross planet
+
 Run an apigee-service command in particular components or across the planet.
 
-Possible values for command:
+```
+$ ansible-playbook -i inventory/INVENTORY_FILE -e "cmd=COMMAND component=COMPONENT" setup.yml
+```
+
+Values for **cmd**:
 - status
 - start
 - wait_for_ready
 - stop
 - restart
 
-Possible values for component:
+Values for **component**:
 - zk      (Zookeeper)
 - cs      (Cassandra)
 - ds      (Zookeeper and Cassandra)
@@ -181,24 +240,12 @@ Possible values for component:
 - rmp     (Router and Message Processor)
 - qs      (QPIDD and Qpid Server)
 - pg      (Postgreql and Postgres Server)
-- all     (All Apigee Edge components)
-
-```
-$ ansible-playbook -i inventory/INVENTORY_FILE -e "cmd=COMMAND component=COMPONENT" setup.yml
-```
-
-## Fetch Planet logs
-Tar all the edge logs from each node.
-
-```
-$ ansible-playbook -i inventory/INVENTORY_FILE logs.yml
-```
-
-Find the logs under:
-  - _reports/PLANET/_:
+- all     (All Edge components)
 
 ## Create custom role
-Create custom role
+[Edge Roles](https://docs.apigee.com/api-services/content/managing-roles-api).
+
+Create custom role in an Edge Org.
 
 ```
 $ ansible-playbook -i inventory/INVENTORY_FILE \
@@ -206,14 +253,28 @@ $ ansible-playbook -i inventory/INVENTORY_FILE \
   customrole_path=ROLE_PATH" adminapi.yml
 ```
 
-Extra vars:
-- _api\_action_=roles
-- _org_: org name where new role is created
-- _role_: new role name
-- customrole\_path_: path to role in JSON format. Example in _examples/customrole.json_
+Variable | Example | Description
+--- | --- | ---
+api_action* | roles | This must be _roles_ to create new roles.
+org* | BubbaGump | Edge Org where the role is going to be created.
+role* | newrol | Role name.
+customrole_path* | examples/customrole.json | Path to role in JSON format. 
+
+\* Required.
+
+Each Edge Org has some [built-in roles](https://docs.apigee.com/api-services/content/edge-built-roles):
+- **Organization Administrator**: Super user. Has full CRUD access to resources in the organization. In an Edge 
+for Private Cloud installation, the most powerful role is the System administrator role, which also has access 
+to system-level functions that the Organization Administrator doesn't.
+- **Operations Administrator**: Deploys and tests APIs; has read-only access to other resources.
+- **Business User**: Creates and manages API products, developers, developer apps, and companies; 
+creates custom reports on API usage; has read-only access to other resources.
+- **User**: Creates API proxies and tests them in the test environment; has read-only access to other resources.
 
 ## Create user 
-Create user and add to existing role
+[Edge Users](https://docs.apigee.com/private-cloud/latest/managing-users-roles-and-permissions).
+
+Create user and add to an existing role.
 
 ```
 $ ansible-playbook -i inventory/INVENTORY_FILE \
@@ -223,14 +284,17 @@ $ ansible-playbook -i inventory/INVENTORY_FILE \
   adminapi.yml
 ```
 
-Extra vars:
-- _api\_action_=users
-- _org_: org name where new user is created
-- _role_: existing role given to new user
-- _user\_email_: new user email
-- _user\_password_: new user password
-- _user\_name_: new user name
-- _user\_lastname_: new user last name
+Variable | Example | Description
+--- | --- | ---
+api_action* | users | This must be _users_ to create new user.
+org* | BubbaGump | Edge Org where the role is going to be created.
+role | User | Edge role.
+user_email* | forest@gump.com | User email (used as _username_).
+user_password* | mypassword | User password. 
+user_name* | Forest | User name. 
+user_lastname* | Gump | User last name.
+
+\* Required.
 
 
 ## Ansible Ad-Hoc commands
@@ -247,7 +311,7 @@ $ ./service.sh -i inventory/INVENTORY_FILE -g HOST_GROUP -c "echo 'Hello node!'"
 ```
 Where:
 - **-h**: help
-- **-i**: ansible inventory path **Required**
+- **-i**: ansible inventory path. **Required**
 - **-c**: command to run in the node.
 - **-g**: ansible inventory group
 
@@ -260,8 +324,42 @@ $ ./service.sh -i inventory/INVENTORY_FILE -g HOST_GROUP -c "echo 'Hello node!'"
 
 \* _/opt/apigee/apigee-service/bin/apigee-all start|restart_ are not recommended since the start order is important: [Starting apigee components](https://docs.apigee.com/private-cloud/latest/starting-stopping-and-restarting-apigee-edge)
 
+## Fetch Planet logs
+Tar all the edge logs from each node.
+
+```
+$ ansible-playbook -i inventory/INVENTORY_FILE logs.yml
+```
+
+## Run planet scan
+Run check commands across the planet.
+
+**Edge pods**
+- Central pod.
+- Gateway pod.
+- Analytics pod.
+
+**Zookeeper**
+- _ruok_.
+- _stat_.
+- Zookeeper tree.
+
+**Cassandra**
+- nodetool ring.
+- nodetool status.
+- nodetool statusthrift
+
+**Postgres**
+- master/standby check.
+
+```
+$ ansible-playbook -i inventory/INVENTORY_FILE planet_scan.yml
+```
+
+Find the scan files:
+  - _reports/scan_:
+
 ## Author
 
 If you have any questions regarding this project contact:  
 Mauro González <jmajma8@gmail.com>
-

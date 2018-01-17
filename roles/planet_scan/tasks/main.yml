@@ -1,0 +1,66 @@
+---
+- name: Set tasks facts
+  set_fact:
+    scan_path: "{{ playbook_dir }}/reports/scan"
+    zk_hosts: "{{ groups['zk'] if groups['zk']|length > 0 else groups['ds'] }}"
+    cs_hosts: "{{ groups['c'] if groups['c']|length > 0 else groups['ds'] }}"
+
+- name: Creates scan dir if it doesn't exist
+  file:
+    path: "{{ scan_path }}"
+    state: directory    
+
+- name: Validations | Zookeeper
+  include_tasks: zk.yml
+
+- name: Set ZK facts
+  set_fact: 
+    zk_ruoks: "{{ hostvars['localhost']['zk_ruok_res']['results'] }}"
+    zk_stats: "{{ hostvars['localhost']['zk_stat_res']['results'] }}"
+    zk_tree: "{{ hostvars['localhost']['zk_tree_res']['stdout_lines'] }}"
+    
+- name: Validations | Cassandra
+  include_tasks: cassandra.yml
+
+- name: Set CS facts
+  set_fact: 
+    cs_statusthrift: "{{ hostvars['localhost']['cs_statusthrift_res']['results'] }}"
+    cs_ring: "{{ hostvars['localhost']['cs_ring_res']['stdout_lines'] }}"
+    cs_status: "{{ hostvars['localhost']['cs_status_res']['stdout_lines'] }}"
+
+- name: Validations | Postgresql
+  include_tasks: pg.yml
+
+- name: Set PG facts
+  set_fact: 
+    pg_check: "{{ hostvars['localhost']['pg_check_res']['results'] }}"
+
+- name: Set PG facts
+  set_fact: 
+    pg_check: "{{ hostvars['localhost']['pg_check_res']['results'] }}" 
+
+- name: Validations | Pods
+  include_tasks: pods.yml
+  
+- name: Set Pods facts
+  set_fact: 
+    pod_servers: "{{ hostvars['localhost']['pod_servers_res']['results'] }}"  
+
+- name: Create scan files
+  template:
+    src: "{{ item }}"
+    dest: "{{ scan_path }}/{{ item.split('.')[:-1]|join('.') }}"
+  with_items:
+    - zk_health.csv.j2
+    - zk_tree.txt.j2
+    - cs_ring.txt.j2
+    - cs_status.txt.j2
+    - cs_statusthrift.csv.j2
+    - pg_check.csv.j2
+
+- name: Create Pod files
+  template:
+    src: pod.json.j2
+    dest: "{{ scan_path }}/pod_{{ item['item'][0]~'_'~item['item'][1] }}.json"
+  with_items:
+    - "{{ pod_servers }}"    

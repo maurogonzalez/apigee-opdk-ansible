@@ -2,4 +2,6 @@
 files/*
 inventory/*
 reports/*
-!*/.gitkeep 
+!*/.gitkeep
+vault*
+tls*
