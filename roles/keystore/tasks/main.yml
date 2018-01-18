@@ -1,14 +1,23 @@
 ---
+- name: Set task facts
+  set_fact:
+    tls_tmp_path: "{{ playbook_dir }}/tmp"
+
+- name: Creates scan dir if it doesn't exist
+  file:
+    path: "{{ tls_tmp_path }}"
+    state: directory  
+
 - name: Create TLS directory
   file:
-    path: files/tls/META-INF
+    path: "{{ tls_tmp_path }}/META-INF"
     state: directory
     mode: 0755
 
 - name: Copy Key and Cert to temporal directory
   copy:
     src: "{{ item }}"
-    dest: files/tls
+    dest: "{{ tls_tmp_path }}"
   with_items:
     - "{{ ks_cert }}"
     - "{{ ks_key }}"
@@ -16,23 +25,23 @@
 - name: Create jar
   command: jar -cf {{ keystore }}.jar {{ ks_cert.split('/')[-1] }} {{ ks_key.split('/')[-1] }}
   args:
-    chdir: files/tls
+    chdir: "{{ tls_tmp_path }}"
 
 - name: Create descriptor.properties
   template:
     src: descriptor.properties.j2
-    dest: files/tls/META-INF/descriptor.properties
+    dest: "{{ tls_tmp_path }}/META-INF/descriptor.properties"
 
 - name: Create jar
   command: jar -uf {{ keystore }}.jar META-INF/descriptor.properties
   args:
-    chdir: files/tls
+    chdir: "{{ tls_tmp_path }}"
 
 - name: Copy keystore jar to MS
   become: yes
   delegate_to: "{{item}}"
   copy:
-    src: files/tls/{{ keystore }}.jar
+    src: "{{ tls_tmp_path }}/{{ keystore }}.jar"
     dest: /tmp/apigee/{{ keystore }}.jar
   with_items: "{{ groups['ms'] + groups['msldap'] }}"
 
@@ -56,3 +65,9 @@
     -H 'Content-Type: multipart/form-data' -F file='@/tmp/apigee/{{ keystore }}.jar'
     http://localhost:8080/v1/o/{{ ks_org }}/environments/{{ ks_env }}/keystores/{{ keystore }}/keys?alias={{ keyalias }}"
   with_items: "{{ groups['ms'] + groups['msldap'] }}"
+
+- name: Remove tmp
+  file:
+    path: "{{ tls_tmp_path }}/"
+    state: absent
+

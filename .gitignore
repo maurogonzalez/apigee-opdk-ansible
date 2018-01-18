@@ -1,5 +1,4 @@
 *.retry
-files/*
 inventory/*
 reports/*
 !*/.gitkeep

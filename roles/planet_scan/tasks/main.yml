@@ -1,7 +1,7 @@
 ---
 - name: Set tasks facts
   set_fact:
-    scan_path: "{{ playbook_dir }}/reports/scan"
+    scan_path: "{{ playbook_dir }}/reports/{{ planet }}/scan"
     zk_hosts: "{{ groups['zk'] if groups['zk']|length > 0 else groups['ds'] }}"
     cs_hosts: "{{ groups['c'] if groups['c']|length > 0 else groups['ds'] }}"
 
@@ -10,6 +10,13 @@
     path: "{{ scan_path }}"
     state: directory    
 
+- name: Validations | Memory usage
+  include_tasks: memory.yml    
+
+- name: Set memory facts
+  set_fact: 
+    planet_mem: "{{ hostvars['localhost']['memory_res']['results'] }}"
+    
 - name: Validations | Zookeeper
   include_tasks: zk.yml
 
@@ -61,6 +68,7 @@
     src: "{{ item }}"
     dest: "{{ scan_path }}/{{ item.split('.')[:-1]|join('.') }}"
   with_items:
+    - planet_memory.txt.j2
     - zk_health.csv.j2
     - zk_tree.txt.j2
     - cs_ring.txt.j2

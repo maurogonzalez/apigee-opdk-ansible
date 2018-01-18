@@ -95,7 +95,7 @@ create the onboarding response file:
 $ ansible-playbook -e -i inventory/INVENTORY_FILE response_files.yml
 ```
 Find the response files under:
-  - _files/response_PLANET_REGION.cfg_
+  - _reports/PLANET/response_files/response_PLANET_REGION.cfg_
 
 ## Install all prereqs and the apigee-setup utility accross the planet
 Install the prerequisites described [here](https://docs.apigee.com/private-cloud/latest/install-edge-apigee-setup-utility) and some more
@@ -359,6 +359,10 @@ Run check commands across the planet:
     - Postgres Server (8084).
 
 - _Analytics groups_: List the Analytics groups and servers.
+
+- Fetch _customer/application_ files across the planet.
+
+- Memory and disk usage.
 
 ```
 $ ansible-playbook -i inventory/INVENTORY_FILE planet_scan.yml
