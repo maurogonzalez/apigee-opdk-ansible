@@ -1,18 +1,50 @@
 # Apigee OPDK ansible (Under construction)
 
-This repo is intended to be a small and more friendly for non ansible users subset of [Carlos Frias ansible playbooks](https://github.com/carlosfrias/apigee-opdk-playbook-setup-ansible) and [etp](https://github.com/yuriylesyuk/etp). 
-
 Centralize Edge operation tasks using one inventory file as reference for all tasks.
 
-## Requirements
+This project use as reference the following projects:
+- [Apigee opdk playbook setup ansible](https://github.com/carlosfrias/apigee-opdk-playbook-setup-ansible) 
+- [etp](https://github.com/yuriylesyuk/etp). 
+
+# Table of contents
+1. [Requirements](#requirements)
+1. [Getting ready](#getting-ready)
+    1. [Configuration file](#config-file)
+    1. [Topology definition](#topology-defintion)
+    1. [Generate Anisble inventory](#inventory)
+    1. [Generate response files](#gen-response)
+1. [Apigee Edge Ops Tasks](#ops-tasks)
+    1. [Install prereqs and the apigee-setup utility](#prereqs)
+    1. [Port checking report](#port-check)
+    1. [Install Edge](#install)
+    1. [Update Edge](#update)
+    1. [Edge onboarding](#onboarding)
+    1. [Create keystore in Edge and upload keystore certs](#keystore)
+    1. [Create a VirtualHost](#vhost)
+    1. [Run apigee-service commands accross planet](#apigee-service)
+    1. [Create Edge custom role](#custom-role)
+    1. [Create user](#user)
+    1. [Fetch planet logs](#logs)
+    1. [Run planet scan](#planet-scan)
+    1. [Ansible Ad-Hoc commands](#ad-hoc)
+1. [Author](#author)
+
+## Requirements <a name="requirements" />
+
+Clone this repo:
+```
+# Move to your working path
+git clone https://github.com/maurogonzalez/apigee-opdk-ansible.git
+cd apigee-opdk-ansible.git
+```
+
 - ansible >= 2.2
 - etp (to create topology diagram)
 
 Go to the [Installation wiki](https://github.com/maurogonzalez/apigee-opdk-ansible/wiki/Install-requirements).
 
-# Usage
-
-## Populate env.yml file
+## Getting ready <a name="getting-ready" />
+### Configuration file <a name="config-file" />
 Under project root there's an _env.yml_, fill the required variables. 
 
 Property | Example | Description
@@ -52,10 +84,13 @@ onboard_vhost_alias*** | api.forest.com  | virtualhost alias for onboarding. If 
 *** Required for onboarding.
 
 **Note:** If you want to encrypt sensitive data: [vault wiki](https://github.com/maurogonzalez/apigee-opdk-ansible/wiki/Encrypting-sensitive-data).
-## Create an ansible inventory file and topology diagram
+
+### Topology definition <a name="topology-defintion"/>
 
 First create an [etp edge topology definition json file](https://github.com/yuriylesyuk/etp) (example _examples/topology-1dc-5n.json_).
 This is the only file that you need to create.
+
+### Generate Anisble inventory <a name="inventory">
 
 Ansible inventory file based on [apigee-opdk-inventory-file](https://github.com/carlosfrias/apigee-opdk-playbook-setup-ansible/blob/master/README-INVENTORY-FILE.md).
 
@@ -87,9 +122,9 @@ Find the files under:
   - \* Diagram tasks, require nodejs and etp ([Installation wiki](https://github.com/maurogonzalez/apigee-opdk-ansible/wiki/Install-requirements)).
   - Do not modify the inventory file.
 
-## Create response files from inventory 
+### Generate response files <a name="gen-response" />
 
-Create response file per region used by the installation, upgrade and other ops tasks. Also
+Generate response file per region used by the installation, upgrade and other ops tasks. Also
 create the onboarding response file:
 ```
 $ ansible-playbook -e -i inventory/INVENTORY_FILE response_files.yml
@@ -97,7 +132,9 @@ $ ansible-playbook -e -i inventory/INVENTORY_FILE response_files.yml
 Find the response files under:
   - _reports/PLANET/response_files/response_PLANET_REGION.cfg_
 
-## Install all prereqs and the apigee-setup utility accross the planet
+## Apigee Edge Ops Tasks <a name="ops-tasks" />
+
+### Install prereqs and the apigee-setup utility <a name="prereqs" />
 Install the prerequisites described [here](https://docs.apigee.com/private-cloud/latest/install-edge-apigee-setup-utility) and some more
 useful tools.
 
@@ -120,7 +157,7 @@ Sets Cassandra, Message Processor and Postgresql memory settings.
 $ ansible-playbook -i inventory/INVENTORY_FILE prerequisites.yml
 ```
 
-## Create port checking report
+### Port checking report <a name="port-check" />
 
 Create port report for a whole planet. This will test ports between nodes and create two CSV files:
 - Connectivity report grouped by edge component.
@@ -134,14 +171,14 @@ Find the report files under:
 
 **Note:** The hosts require _nmap_, it is installed in the above prerequisites playbook.
 
-## Install Edge
+### Install Edge <a name="install" />
 Install Edge components in the planet:
 
 ```
 $ ansible-playbook -i inventory/INVENTORY_FILE -e "cmd=setup" setup.yml
 ```
 
-## Update Edge
+### Update Edge <a name="update" />
 Update Edge components in the planet, only if current version >= 4.16.09.
 
 Set the value of the target version in your _env.yml_:
@@ -157,14 +194,14 @@ And run:
 $ ansible-playbook -i inventory/INVENTORY_FILE update.yml
 ```
 
-## Edge onboarding
+### Edge onboarding <a name="onboarding" />
 Onboarding: create organization, environment, org admin user and default virtual host.
 
 ```
 $ ansible-playbook -i inventory/INVENTORY_FILE onboard.yml
 ```
 
-## Create Keystore and upload keystore jar
+### Create keystore in Edge and upload keystore certs <a name="keystore" />
 [Apigee Keystores and Truststores](https://docs.apigee.com/api-services/content/keystores-and-truststores).
 
 Create a jar Keystore from key/cert pair, an Apigee Keystore in Edge and upload the JAR to Edge:
@@ -188,8 +225,8 @@ ks_env* | test | Edge Env where the Keystore is going to be created.
 
 \* Required.
 
-## Create a VirtualHost with TLS enabled
-Create virtual host in an existing Edge Org/Env.
+### Create a VirtualHost <a name="vhost"/>
+Create virtual host in an existing Edge Org/Env. Optionally TLS could be enabled with an existing keystore.
 
 ```
 $ ansible-playbook -i inventory/INVENTORY_FILE \
@@ -213,7 +250,7 @@ keystore** | keystore | Existing keystore name.
 
 ** Required if tls_enabled is set to any value.
 
-## Run apigee-service commands accross planet
+### Run apigee-service commands accross planet <a name="apigee-service" />
 
 Run an apigee-service command in particular components or across the planet.
 
@@ -242,7 +279,7 @@ Values for **component**:
 - pg      (Postgreql and Postgres Server)
 - all     (All Edge components)
 
-## Create custom role
+### Create Edge custom role <a name="custom-role">
 [Edge Roles](https://docs.apigee.com/api-services/content/managing-roles-api).
 
 Create custom role in an Edge Org.
@@ -271,7 +308,7 @@ to system-level functions that the Organization Administrator doesn't.
 creates custom reports on API usage; has read-only access to other resources.
 - **User**: Creates API proxies and tests them in the test environment; has read-only access to other resources.
 
-## Create user 
+### Create user <a name="user" />
 [Edge Users](https://docs.apigee.com/private-cloud/latest/managing-users-roles-and-permissions).
 
 Create user and add to an existing role.
@@ -296,42 +333,14 @@ user_lastname* | Gump | User last name.
 
 \* Required.
 
-
-## Ansible Ad-Hoc commands
-[Ansible Ad-Hoc commands](http://docs.ansible.com/ansible/latest/intro_adhoc.html)
-
-Example: 
-```
-$ ansible -i inventory/INVENTORY_FILE HOST_GROUP -m shell -a '/opt/apigee/apigee-service/bin/apigee-all status'
-```
-Script for inventory group hosts:
-Run _echo "Hello node!"_ command example:
-```
-$ ./service.sh -i inventory/INVENTORY_FILE -g HOST_GROUP -c "echo 'Hello node!'"
-```
-Where:
-- **-h**: help
-- **-i**: ansible inventory path. **Required**
-- **-c**: command to run in the node.
-- **-g**: ansible inventory group
-
-Default values:
-- If not _-c_ option provided, the default command is: _/opt/apigee/apigee-service/bin/apigee-all status_
-- If not _-g_ option provided, the default group is: _planet_
-```
-$ ./service.sh -i inventory/INVENTORY_FILE -g HOST_GROUP -c "echo 'Hello node!'"
-```
-
-\* _/opt/apigee/apigee-service/bin/apigee-all start|restart_ are not recommended since the start order is important: [Starting apigee components](https://docs.apigee.com/private-cloud/latest/starting-stopping-and-restarting-apigee-edge)
-
-## Fetch Planet logs
+### Fetch planet logs <a name="logs" />
 Tar all the edge logs from each node.
 
 ```
 $ ansible-playbook -i inventory/INVENTORY_FILE logs.yml
 ```
 
-## Run planet scan
+### Run planet scan <a name="planet-scan"/>
 Run check commands across the planet:
 
 - _Edge pods_: List servers for each Pod.
@@ -371,7 +380,34 @@ $ ansible-playbook -i inventory/INVENTORY_FILE planet_scan.yml
 Find the scan files:
   - _reports/scan_:
 
-## Author
+### Ansible Ad-Hoc commands <a name="ad-hoc" />
+[Ansible Ad-Hoc commands](http://docs.ansible.com/ansible/latest/intro_adhoc.html)
+
+Example: 
+```
+$ ansible -i inventory/INVENTORY_FILE HOST_GROUP -m shell -a '/opt/apigee/apigee-service/bin/apigee-all status'
+```
+Script for inventory group hosts:
+Run _echo "Hello node!"_ command example:
+```
+$ ./service.sh -i inventory/INVENTORY_FILE -g HOST_GROUP -c "echo 'Hello node!'"
+```
+Where:
+- **-h**: help
+- **-i**: ansible inventory path. **Required**
+- **-c**: command to run in the node.
+- **-g**: ansible inventory group
+
+Default values:
+- If not _-c_ option provided, the default command is: _/opt/apigee/apigee-service/bin/apigee-all status_
+- If not _-g_ option provided, the default group is: _planet_
+```
+$ ./service.sh -i inventory/INVENTORY_FILE -g HOST_GROUP -c "echo 'Hello node!'"
+```
+
+\* _/opt/apigee/apigee-service/bin/apigee-all start|restart_ are not recommended since the start order is important: [Starting apigee components](https://docs.apigee.com/private-cloud/latest/starting-stopping-and-restarting-apigee-edge)
+
+## Author <a name="author" />
 
 If you have any questions regarding this project contact:  
 Mauro González <jmajma8@gmail.com>
