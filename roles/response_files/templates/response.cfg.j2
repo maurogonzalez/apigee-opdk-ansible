@@ -9,8 +9,10 @@
 {% endfor %}
 {%if groups[region ~ "-msldap"].0 is defined %}
 {% set mschild = "-msldap" %}
+{% set ldapchild = "-msldap" %}
 {% else %}
 {% set mschild = "-ms" %}
+{% set ldapchild = "-ldap" %}
 {% endif %}
 
 HOSTIP="$(hostname -i)"
@@ -27,9 +29,9 @@ APIGEE_LDAPPW="{{ opdk_admin_password }}"
 {# Set peer to the next/first region #}
 {% set region_succ=region|replace(region_index, region_index|int + 1) %}
 {% if region_succ in regions_list %}
-{% set ldap_peer=hostvars[groups[region_succ ~ "-ldap"].0].env_ref %}
+{% set ldap_peer=hostvars[groups[region_succ ~ ldapchild].0].env_ref %}
 {% else %}
-{% set ldap_peer=hostvars[groups[regions_list.0[:-1] ~ "1-ldap"].0].env_ref %}
+{% set ldap_peer=hostvars[groups[regions_list.0[:-1] ~ "1" ~ ldapchild].0].env_ref %}
 {% endif %}
 LDAP_SID="{{ region_index }}"
 LDAP_PEER="${{ ldap_peer }}"
