@@ -62,7 +62,7 @@ localhost ansible_connection=local
 # Listing of all the Management Server and OpenLDAP nodes in {{ r.name }}
 {% for n in iteratee if "MS" in n.components and "OL" in n.components %}
 {{ n.name }}
-{% endfor %}
+{% set x=ldap_count.append(ldap_count.pop() + 1) %}{% endfor %}
 
 [{{ r.name }}-ms]
 # Listing of all the isolated Management Server nodes in {{ r.name }}
