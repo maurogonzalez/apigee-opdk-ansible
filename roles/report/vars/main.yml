@@ -12,6 +12,9 @@ cp_ports:
   - mp_qpid_port
   - r_ds_port
   - r_ms_port
+  - qpid_ds_port
+  - qpid_ms_port
+  - qpid_pg_port
   - pg_ds_port
   - pg_ms_port
   - pg_pg_port
