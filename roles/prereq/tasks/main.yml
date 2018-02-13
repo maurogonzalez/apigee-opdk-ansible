@@ -11,7 +11,9 @@
     - nc  
     - nmap  
     - java-1.8.0-openjdk-devel
-
+    - yum-utils
+    - yum-plugin-priorities
+    
 - name: Set JAVA_HOME for the installation
   become: yes
   lineinfile: 
